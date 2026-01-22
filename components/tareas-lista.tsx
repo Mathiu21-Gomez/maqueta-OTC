@@ -44,9 +44,11 @@ import {
   diasRestantes,
   formatearFecha,
   getMesFromFecha,
+  calcularTareasPorMes,
 } from "@/lib/helpers"
 import { AREAS, ESTADOS, MESES, type Area, type Prioridad } from "@/lib/types"
 import { TareaDetalleModal } from "@/components/tarea-detalle-modal"
+import { TareasMensualesBarChart } from "@/components/charts/tareas-mensuales-bar-chart"
 import type { Tarea } from "@/lib/types"
 
 const ITEMS_PER_PAGE = 10
@@ -147,6 +149,8 @@ export function TareasLista() {
     return { total, finalizadas, atrasadas, avancePromedio }
   }, [tareasFiltradas])
 
+  const tareasPorMes = useMemo(() => calcularTareasPorMes(tareasFiltradas), [tareasFiltradas])
+
   const getRowBorderClass = (tarea: Tarea) => {
     const estado = calcularEstado(tarea)
     const dias = diasRestantes(tarea.fechaFin)
@@ -184,8 +188,9 @@ export function TareasLista() {
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardContent className="p-4">
+      <div className="relative bg-white rounded-xl overflow-hidden shadow-sm">
+        <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #6B7280 0%, #4B5563 100%)' }} />
+        <div className="px-6 pt-5 pb-6">
           <div className="flex flex-col gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -263,8 +268,11 @@ export function TareasLista() {
               </Select>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+
+      {/* Gráfico de Tareas por Mes */}
+      <TareasMensualesBarChart data={tareasPorMes} />
 
       {/* Table */}
       <Card>

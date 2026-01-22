@@ -1,7 +1,6 @@
 "use client"
 
 import { LabelList, Pie, PieChart } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp } from "lucide-react"
@@ -52,33 +51,39 @@ export function MesesChart({ data }: MesesChartProps) {
 
   if (chartData.length === 0) {
     return (
-      <Card className="flex flex-col">
-        <CardHeader className="items-center pb-0">
-          <CardTitle className="text-base text-foreground">Tareas por Mes</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center h-[300px]">
+      <div className="relative bg-white rounded-xl overflow-hidden shadow-sm flex flex-col">
+        <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)' }} />
+        <div className="px-6 pt-5 pb-0 flex flex-col">
+          <div className="items-center pb-0">
+            <h3 className="text-base text-foreground font-semibold">Tareas por Mes</h3>
+          </div>
+        </div>
+        <div className="px-6 pb-6 flex items-center justify-center h-[300px]">
           <p className="text-muted-foreground">No hay datos disponibles</p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )
   }
 
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle className="text-base">
-          Tareas por Mes
-          <Badge
-            variant="outline"
-            className="text-green-500 bg-green-500/10 border-none ml-2"
-          >
-            <TrendingUp className="h-4 w-4" />
-            <span>{total} total</span>
-          </Badge>
-        </CardTitle>
-        <CardDescription>Mes destacado: {mesConMasTareas.mes} ({mesConMasTareas.tareas} tareas)</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-4">
+    <div className="relative bg-white rounded-xl overflow-hidden shadow-sm flex flex-col">
+      <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)' }} />
+      <div className="px-6 pt-5 pb-0 flex flex-col">
+        <div className="items-center pb-0">
+          <h3 className="text-base font-semibold">
+            Tareas por Mes
+            <Badge
+              variant="outline"
+              className="text-green-500 bg-green-500/10 border-none ml-2"
+            >
+              <TrendingUp className="h-4 w-4" />
+              <span>{total} total</span>
+            </Badge>
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1">Mes destacado: {mesConMasTareas.mes} ({mesConMasTareas.tareas} tareas)</p>
+        </div>
+      </div>
+      <div className="px-6 pb-6 flex-1">
         <ChartContainer
           config={dynamicConfig}
           className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[250px]"
@@ -106,7 +111,7 @@ export function MesesChart({ data }: MesesChartProps) {
             </Pie>
           </PieChart>
         </ChartContainer>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

@@ -10,8 +10,10 @@ interface TaskContextType {
   rol: RolUsuario
   areaUsuario: Area
   notificaciones: Notificacion[]
+  nuevaTareaSheetOpen: boolean
   setRol: (rol: RolUsuario) => void
   setAreaUsuario: (area: Area) => void
+  setNuevaTareaSheetOpen: (open: boolean) => void
   agregarTarea: (tarea: Omit<Tarea, "id" | "fechaCreacion" | "creadoPor" | "avanceTotal" | "estado">) => void
   actualizarTarea: (id: string, updates: Partial<Tarea>) => void
   marcarActividadCompletada: (tareaId: string, actividadId: string, completada: boolean) => void
@@ -34,6 +36,7 @@ export function TaskProvider({ children }: { children: ReactNode }) {
   const [notificaciones, setNotificaciones] = useState<Notificacion[]>(() =>
     generarNotificaciones(tareasIniciales)
   )
+  const [nuevaTareaSheetOpen, setNuevaTareaSheetOpen] = useState(false)
 
   const agregarTarea = useCallback(
     (nuevaTarea: Omit<Tarea, "id" | "fechaCreacion" | "creadoPor" | "avanceTotal" | "estado">) => {
@@ -114,8 +117,10 @@ export function TaskProvider({ children }: { children: ReactNode }) {
         rol,
         areaUsuario,
         notificaciones,
+        nuevaTareaSheetOpen,
         setRol,
         setAreaUsuario,
+        setNuevaTareaSheetOpen,
         agregarTarea,
         actualizarTarea,
         marcarActividadCompletada,

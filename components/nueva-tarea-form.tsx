@@ -271,23 +271,6 @@ export function NuevaTareaForm() {
                 rows={3}
               />
             </div>
-
-            <div className="space-y-2">
-              <Label>Area(s) responsable(s) *</Label>
-              <div className="flex flex-wrap gap-2">
-                {AREAS.map((area) => (
-                  <Badge
-                    key={area}
-                    variant={formData.areas.includes(area) ? "default" : "outline"}
-                    className="cursor-pointer transition-colors"
-                    onClick={() => toggleArea(area)}
-                  >
-                    {area}
-                  </Badge>
-                ))}
-              </div>
-              {errors.areas && <p className="text-xs text-red-500">{errors.areas}</p>}
-            </div>
           </CardContent>
         </Card>
 

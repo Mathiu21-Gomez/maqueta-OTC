@@ -78,67 +78,80 @@ export function TareasColaborativas() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 sm:grid-cols-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                <Users className="h-5 w-5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">{stats.total}</p>
-                <p className="text-xs text-muted-foreground">Total colaborativas</p>
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4 mb-8">
+        {/* Card 1: Total colaborativas - Azul */}
+        <div className="relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 min-h-[160px]">
+          <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)' }} />
+          <div className="px-6 pt-5 pb-6">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-[15px] font-semibold text-[#374151] leading-tight m-0">Total colaborativas</h3>
+              <div className="w-11 h-11 rounded-full bg-[#DBEAFE] flex items-center justify-center shrink-0">
+                <Users className="w-[22px] h-[22px] text-[#2563EB]" />
               </div>
             </div>
-          </CardContent>
-        </Card>
+            <div className="text-[36px] font-bold text-[#111827] leading-tight mb-2 tracking-tight">
+              {stats.total}
+            </div>
+            <p className="text-[13px] font-normal text-[#6B7280] leading-normal m-0">tareas colaborativas</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center">
-                <Users className="h-5 w-5 text-amber-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">{stats.enCurso}</p>
-                <p className="text-xs text-muted-foreground">En curso</p>
+        {/* Card 2: En curso - Naranja */}
+        <div className="relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 min-h-[160px]">
+          <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)' }} />
+          <div className="px-6 pt-5 pb-6">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-[15px] font-semibold text-[#374151] leading-tight m-0">En curso</h3>
+              <div className="w-11 h-11 rounded-full bg-[#FFEDD5] flex items-center justify-center shrink-0">
+                <Users className="w-[22px] h-[22px] text-[#EA580C]" />
               </div>
             </div>
-          </CardContent>
-        </Card>
+            <div className="text-[36px] font-bold text-[#111827] leading-tight mb-2 tracking-tight">
+              {stats.enCurso}
+            </div>
+            <p className="text-[13px] font-normal text-[#6B7280] leading-normal m-0">en progreso</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                <Users className="h-5 w-5 text-emerald-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">{stats.finalizadas}</p>
-                <p className="text-xs text-muted-foreground">Finalizadas</p>
+        {/* Card 3: Finalizadas - Verde */}
+        <div className="relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 min-h-[160px]">
+          <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' }} />
+          <div className="px-6 pt-5 pb-6">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-[15px] font-semibold text-[#374151] leading-tight m-0">Finalizadas</h3>
+              <div className="w-11 h-11 rounded-full bg-[#D1FAE5] flex items-center justify-center shrink-0">
+                <Users className="w-[22px] h-[22px] text-[#059669]" />
               </div>
             </div>
-          </CardContent>
-        </Card>
+            <div className="text-[36px] font-bold text-[#111827] leading-tight mb-2 tracking-tight">
+              {stats.finalizadas}
+            </div>
+            <p className="text-[13px] font-normal text-[#6B7280] leading-normal m-0">completadas</p>
+          </div>
+        </div>
 
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                <Users className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">{stats.avancePromedio}%</p>
-                <p className="text-xs text-muted-foreground">Avance promedio</p>
+        {/* Card 4: Avance promedio - Púrpura */}
+        <div className="relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 min-h-[160px]">
+          <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)' }} />
+          <div className="px-6 pt-5 pb-6">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-[15px] font-semibold text-[#374151] leading-tight m-0">Avance promedio</h3>
+              <div className="w-11 h-11 rounded-full bg-[#EDE9FE] flex items-center justify-center shrink-0">
+                <Users className="w-[22px] h-[22px] text-[#7C3AED]" />
               </div>
             </div>
-          </CardContent>
-        </Card>
+            <div className="text-[36px] font-bold text-[#111827] leading-tight mb-2 tracking-tight">
+              {stats.avancePromedio}%
+            </div>
+            <p className="text-[13px] font-normal text-[#6B7280] leading-normal m-0">progreso general</p>
+          </div>
+        </div>
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardContent className="p-4">
+      <div className="relative bg-white rounded-xl overflow-hidden shadow-sm">
+        <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #6B7280 0%, #4B5563 100%)' }} />
+        <div className="px-6 pt-5 pb-6">
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Filter className="h-4 w-4" />
@@ -171,8 +184,8 @@ export function TareasColaborativas() {
               </SelectContent>
             </Select>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Table */}
       <Card>

@@ -30,13 +30,18 @@
   --chart-5: #6366F1;
   --radius: 0.5rem;
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #111827;
-  --sidebar-primary: #1E40AF;
+  --sidebar-foreground: #374151;
+  --sidebar-primary: #1F2937;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #F3F4F6;
-  --sidebar-accent-foreground: #1F2937;
+  --sidebar-accent-foreground: #111827;
   --sidebar-border: #E5E7EB;
-  --sidebar-ring: #1E40AF;
+  --sidebar-ring: #3B82F6;
+  /* Sidebar específicos OTC */
+  --sidebar-icon: #6B7280;
+  --sidebar-label: #9CA3AF;
+  --sidebar-badge-bg: #FEF3C7;
+  --sidebar-badge-text: #92400E;
 }
 
 .dark {

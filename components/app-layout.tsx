@@ -7,15 +7,10 @@ import {
   ListTodo,
   PlusCircle,
   User,
-  Bell,
-  Users,
-  ChevronDown,
   Shield,
   Building2,
-  Settings,
+  LogOut,
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,190 +37,146 @@ import {
 } from "@/components/ui/sidebar"
 import { useTaskContext } from "@/lib/task-context"
 import { AREAS } from "@/lib/types"
+import { NuevaTareaSheet } from "@/components/nueva-tarea-sheet"
 import type { ReactNode } from "react"
 
 const navigationItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Tareas", url: "/tareas", icon: ListTodo },
   { title: "Mis Tareas", url: "/mis-tareas", icon: User },
-  { title: "Colaborativas", url: "/colaborativas", icon: Users },
   { title: "Nueva Tarea", url: "/nueva-tarea", icon: PlusCircle },
 ]
 
 function AppSidebar() {
   const pathname = usePathname()
-  const { rol, setRol, areaUsuario, setAreaUsuario } = useTaskContext()
+  const { rol, setRol, areaUsuario, setAreaUsuario, setNuevaTareaSheetOpen } = useTaskContext()
 
   return (
     <Sidebar>
-      <SidebarHeader>
-        <Link href="/" className="flex items-center gap-2 px-2 py-1">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
-            OTI
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-sidebar-foreground">OTI</span>
-            <span className="text-[10px] text-sidebar-foreground/70">Gestión Operacional</span>
+      <SidebarHeader className="border-b border-sidebar-border">
+        <Link href="/" className="flex items-center gap-3 px-3 py-4">
+          <img src="/logo.svg" alt="OTC Logo" className="h-10 w-10 object-contain" />
+          <div className="flex flex-col gap-0.5">
+            <span className="text-lg font-bold text-[#111827] tracking-tight leading-tight">OTC</span>
+            <span className="text-[13px] font-medium text-[#6B7280] leading-tight">360 ERP</span>
           </div>
         </Link>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navegación</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[11px] uppercase tracking-wider text-[#9CA3AF] font-semibold">Navegación</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {navigationItems.map((item) => {
+                // Si es "Nueva Tarea", abrir el Sheet en lugar de navegar
+                if (item.title === "Nueva Tarea") {
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        onClick={() => setNuevaTareaSheetOpen(true)}
+                        isActive={false}
+                      >
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                }
+                
+                // Para los demás items, navegar normalmente
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={pathname === item.url}>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter>
-        <SidebarSeparator />
-        <SidebarGroup>
-          <SidebarGroupLabel>Simulación de Rol</SidebarGroupLabel>
-          <SidebarGroupContent className="space-y-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-full justify-between bg-sidebar hover:bg-sidebar-accent">
-                  <span className="flex items-center gap-2">
-                    {rol === "Administrador" ? (
-                      <Shield className="h-4 w-4" />
-                    ) : (
-                      <User className="h-4 w-4" />
-                    )}
-                    <span className="truncate">{rol}</span>
-                  </span>
-                  <ChevronDown className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
-                <DropdownMenuLabel>Cambiar Rol</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => setRol("Administrador")}>
-                  <Shield className="mr-2 h-4 w-4" />
-                  Administrador
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setRol("Usuario")}>
-                  <User className="mr-2 h-4 w-4" />
-                  Usuario de Área
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
+      <SidebarFooter className="border-t border-sidebar-border">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-all duration-150 hover:bg-sidebar-accent">
+              {/* Avatar */}
+              <img
+                src="/3e41d0768d4fe9bd835fad6807f1e431ac41a63a0afab7bddd62fe732c5e79d3._SX1080_FMjpg_.jpg"
+                alt="Avatar"
+                className="h-9 w-9 rounded-lg object-cover"
+              />
+              {/* Info */}
+              <div className="flex flex-1 flex-col min-w-0">
+                <span className="text-sm font-medium text-[#111827] truncate">
+                  {rol === "Administrador" ? "Admin" : areaUsuario}
+                </span>
+                <span className="text-xs text-[#6B7280] truncate">
+                  {rol === "Administrador" ? "admin@otc360.com" : `${areaUsuario.toLowerCase()}@otc360.com`}
+                </span>
+              </div>
+              {/* Logout icon */}
+              <LogOut className="h-4 w-4 shrink-0 text-[#6B7280]" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" side="top" className="w-56">
+            <DropdownMenuLabel>Cambiar Rol</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setRol("Administrador")}>
+              <Shield className="mr-2 h-4 w-4" />
+              Administrador
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setRol("Usuario")}>
+              <User className="mr-2 h-4 w-4" />
+              Usuario de Área
+            </DropdownMenuItem>
             {rol === "Usuario" && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="w-full justify-between bg-sidebar hover:bg-sidebar-accent">
-                    <span className="flex items-center gap-2">
-                      <Building2 className="h-4 w-4" />
-                      <span className="truncate">{areaUsuario}</span>
-                    </span>
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-56">
-                  <DropdownMenuLabel>Seleccionar Área</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  {AREAS.map((area) => (
-                    <DropdownMenuItem key={area} onClick={() => setAreaUsuario(area)}>
-                      {area}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel>Seleccionar Área</DropdownMenuLabel>
+                {AREAS.map((area) => (
+                  <DropdownMenuItem key={area} onClick={() => setAreaUsuario(area)}>
+                    <Building2 className="mr-2 h-4 w-4" />
+                    {area}
+                  </DropdownMenuItem>
+                ))}
+              </>
             )}
-          </SidebarGroupContent>
-        </SidebarGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
   )
 }
 
 export function AppLayout({ children }: { children: ReactNode }) {
-  const { rol, areaUsuario, notificaciones } = useTaskContext()
-
-  const notificacionesNoLeidas = notificaciones.filter((n) => !n.leida).length
+  const { rol, areaUsuario, nuevaTareaSheetOpen, setNuevaTareaSheetOpen } = useTaskContext()
 
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        {/* Top Header */}
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-border bg-background px-4">
-          <SidebarTrigger className="-ml-1" />
-
-          <div className="flex-1" />
-
-          <div className="flex items-center gap-2">
-            {/* Notifications */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                  <Bell className="h-5 w-5" />
-                  {notificacionesNoLeidas > 0 && (
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] bg-destructive text-destructive-foreground">
-                      {notificacionesNoLeidas}
-                    </Badge>
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-80">
-                <DropdownMenuLabel>Notificaciones</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {notificaciones.length === 0 ? (
-                  <div className="p-4 text-center text-sm text-muted-foreground">
-                    No hay notificaciones
-                  </div>
-                ) : (
-                  notificaciones.slice(0, 5).map((notif) => (
-                    <DropdownMenuItem key={notif.id} className="flex flex-col items-start gap-1 p-3">
-                      <div className="flex items-center gap-2">
-                        <Badge
-                          variant={notif.tipo === "atrasada" ? "destructive" : "secondary"}
-                          className="text-[10px]"
-                        >
-                          {notif.tipo === "atrasada" ? "Atrasada" : "Por vencer"}
-                        </Badge>
-                        {!notif.leida && (
-                          <span className="h-2 w-2 rounded-full bg-primary" />
-                        )}
-                      </div>
-                      <span className="text-sm text-foreground line-clamp-2">{notif.mensaje}</span>
-                    </DropdownMenuItem>
-                  ))
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* User */}
-            <div className="flex items-center gap-2 pl-2 border-l border-border">
-              <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-medium">
-                {rol === "Administrador" ? "AD" : areaUsuario.slice(0, 2).toUpperCase()}
-              </div>
-              <div className="hidden sm:block">
-                <p className="text-sm font-medium text-foreground">
-                  {rol === "Administrador" ? "Administrador" : `Usuario ${areaUsuario}`}
-                </p>
-                <p className="text-xs text-muted-foreground">{rol}</p>
-              </div>
-            </div>
-          </div>
+        <header className="sticky top-0 z-30 flex h-12 items-center gap-4 border-b border-border bg-background px-4">
+          <SidebarTrigger
+            variant="default"
+            className="-ml-1 h-8 w-8 shrink-0 rounded-md bg-violet-600 text-white hover:bg-violet-700 hover:text-white focus:bg-violet-700 focus:text-white [&_svg]:size-4"
+          />
         </header>
 
         {/* Page content */}
         <main className="p-4 lg:p-6">{children}</main>
       </SidebarInset>
+      
+      {/* Nueva Tarea Sheet - Disponible en todas las páginas */}
+      <NuevaTareaSheet 
+        open={nuevaTareaSheetOpen} 
+        onOpenChange={setNuevaTareaSheetOpen} 
+      />
     </SidebarProvider>
   )
 }
