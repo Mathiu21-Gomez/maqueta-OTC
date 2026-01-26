@@ -7,6 +7,7 @@ import {
   TrendingUp,
   AlertCircle,
   Filter,
+  PlusCircle,
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -18,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useTaskContext } from "@/lib/task-context"
+import { Button } from "@/components/ui/button"
 import { calcularKPIs, calcularCumplimientoPorArea, calcularTareasPorMes, calcularEstado, getMesFromFecha } from "@/lib/helpers"
 import { AREAS, ESTADOS, MESES, type Area, type EstadoTarea } from "@/lib/types"
 import { EstadoChart } from "@/components/charts/estado-chart"
@@ -27,7 +29,7 @@ import { VencimientoChart } from "@/components/charts/vencimiento-chart"
 import { TiempoPromedioChart } from "@/components/charts/tiempo-promedio-chart"
 
 export function Dashboard() {
-  const { tareas } = useTaskContext()
+  const { tareas, setNuevaTareaSheetOpen } = useTaskContext()
   const [mesFilter, setMesFilter] = useState<string>("todos")
   const [areaFilter, setAreaFilter] = useState<string>("todas")
   const [estadoFilter, setEstadoFilter] = useState<string>("todos")
@@ -236,6 +238,17 @@ export function Dashboard() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Botón Nueva Tarea */}
+      <div className="flex justify-end mb-6">
+        <Button
+          onClick={() => setNuevaTareaSheetOpen(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <PlusCircle className="h-4 w-4 mr-2" />
+          Nueva Tarea
+        </Button>
       </div>
 
       {/* Charts Row 1 */}

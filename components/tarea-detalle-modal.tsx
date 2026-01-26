@@ -136,18 +136,25 @@ export function TareaDetalleModal({ tarea, open, onClose }: TareaDetalleModalPro
               </div>
               <div className="grid gap-1">
                 <div className="flex items-center gap-2">
-                  {dias < 0 ? (
+                  {estado === "Finalizado" ? (
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                  ) : dias < 0 ? (
                     <AlertCircle className="h-4 w-4 text-red-500" />
                   ) : (
                     <Clock className="h-4 w-4 text-muted-foreground" />
                   )}
-                  <Label className="text-xs text-muted-foreground">Días restantes</Label>
+                  <Label className="text-xs text-muted-foreground">
+                    {estado === "Finalizado" ? "Estado" : "Días restantes"}
+                  </Label>
                 </div>
                 <p
-                  className={`text-sm font-medium ${dias < 0 ? "text-red-600" : dias <= 5 ? "text-amber-600" : "text-foreground"
+                  className={`text-sm font-medium ${estado === "Finalizado" ? "text-emerald-600" :
+                    dias < 0 ? "text-red-600" :
+                      dias <= 5 ? "text-amber-600" : "text-foreground"
                     }`}
                 >
-                  {dias < 0 ? `${Math.abs(dias)} atrasado` : `${dias} días`}
+                  {estado === "Finalizado" ? "Completada" :
+                    dias < 0 ? `${Math.abs(dias)}d atrasado` : `${dias} días`}
                 </p>
               </div>
             </div>
@@ -267,10 +274,18 @@ export function TareaDetalleModal({ tarea, open, onClose }: TareaDetalleModalPro
             </div>
           </div>
 
-          <SheetFooter>
+          <SheetFooter className="gap-2 pt-4 border-t mt-4 sm:justify-end">
+            <SheetClose asChild>
+              <Button
+                variant="ghost"
+                className="w-full sm:w-auto mt-2 sm:mt-0 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900"
+              >
+                Cerrar
+              </Button>
+            </SheetClose>
             {puedeEditar && estado !== "Finalizado" && (
               <Button
-                className="flex-1"
+                className="w-full sm:w-auto"
                 disabled={!todasCompletadas}
                 onClick={handleFinalizarTarea}
               >
@@ -279,9 +294,6 @@ export function TareaDetalleModal({ tarea, open, onClose }: TareaDetalleModalPro
                   : "Completa todas las actividades"}
               </Button>
             )}
-            <SheetClose asChild>
-              <Button variant="outline">Cerrar</Button>
-            </SheetClose>
           </SheetFooter>
         </SheetContent>
       </Sheet>

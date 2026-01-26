@@ -15,7 +15,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -188,20 +187,17 @@ export function TareasColaborativas() {
       </div>
 
       {/* Table */}
-      <Card>
+      <Card className="overflow-hidden py-0">
         <CardContent className="p-0">
           <Table>
-            <TableCaption className="mb-4">
-              Lista de tareas colaborativas que involucran múltiples áreas
-            </TableCaption>
-            <TableHeader>
+            <TableHeader className="bg-slate-50">
               <TableRow>
-                <TableHead className="w-[200px]">Tarea</TableHead>
-                <TableHead>Área Principal</TableHead>
-                <TableHead>Áreas de Apoyo</TableHead>
-                <TableHead>Estado</TableHead>
-                <TableHead>Avance</TableHead>
-                <TableHead className="w-[80px]">Acciones</TableHead>
+                <TableHead className="w-[200px] text-slate-700 font-semibold">Tarea</TableHead>
+                <TableHead className="text-slate-700 font-semibold">Área Principal</TableHead>
+                <TableHead className="text-slate-700 font-semibold">Áreas de Apoyo</TableHead>
+                <TableHead className="text-slate-700 font-semibold">Estado</TableHead>
+                <TableHead className="text-slate-700 font-semibold">Avance</TableHead>
+                <TableHead className="w-[80px] text-slate-700 font-semibold">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -254,9 +250,9 @@ export function TareasColaborativas() {
                       </TableCell>
                       <TableCell>
                         <span className={`font-medium ${estado === "Finalizado" ? "text-green-600" :
-                            estado === "Atrasado" ? "text-red-600" :
-                              estado === "En curso" ? "text-blue-600" :
-                                "text-yellow-600"
+                          estado === "Atrasado" ? "text-red-600" :
+                            estado === "En curso" ? "text-blue-600" :
+                              "text-yellow-600"
                           }`}>
                           {estado}
                         </span>

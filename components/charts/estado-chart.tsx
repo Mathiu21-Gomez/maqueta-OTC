@@ -6,26 +6,19 @@ import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown } from "lucide-react"
 import type { EstadoTarea } from "@/lib/types"
 
+// Rojo -> Atrasado | Azul -> Finalizado (Listo) | Amarillo -> En curso (Proceso)
+const ESTADO_COLORS: Record<string, { color: string; label: string }> = {
+  Atrasado: { color: "#EF4444", label: "Atrasado" },
+  Finalizado: { color: "#3B82F6", label: "Listo" },
+  "En curso": { color: "#EAB308", label: "Proceso" },
+  Planificado: { color: "#94A3B8", label: "Planificado" },
+}
+
 const chartConfig = {
-  tareas: {
-    label: "Tareas",
-  },
-  Finalizado: {
-    label: "Finalizado",
-    color: "#10B981",
-  },
-  "En curso": {
-    label: "En curso",
-    color: "#3B82F6",
-  },
-  Planificado: {
-    label: "Planificado",
-    color: "#F59E0B",
-  },
-  Atrasado: {
-    label: "Atrasado",
-    color: "#EF4444",
-  },
+  tareas: { label: "Tareas" },
+  ...Object.fromEntries(
+    Object.entries(ESTADO_COLORS).map(([k, v]) => [k, { label: v.label, color: v.color }])
+  ),
 } satisfies ChartConfig
 
 interface EstadoChartProps {
@@ -34,10 +27,10 @@ interface EstadoChartProps {
 
 export function EstadoChart({ data }: EstadoChartProps) {
   const chartData = Object.entries(data)
-    .map(([name, value]) => ({ 
-      estado: name, 
-      tareas: value, 
-      fill: `var(--color-${name.replace(" ", "-")})` 
+    .map(([name, value]) => ({
+      estado: name,
+      tareas: value,
+      fill: ESTADO_COLORS[name]?.color ?? "#94A3B8",
     }))
     .filter((item) => item.tareas > 0)
 
@@ -108,6 +101,22 @@ export function EstadoChart({ data }: EstadoChartProps) {
             </Pie>
           </PieChart>
         </ChartContainer>
+        {/* Leyenda */}
+        <div className="flex flex-wrap justify-center gap-4 mt-4">
+          {chartData.map((item) => (
+            <div
+              key={item.estado}
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground"
+            >
+              <span
+                className="inline-block w-3 h-3 rounded-full shrink-0"
+                style={{ backgroundColor: item.fill }}
+              />
+              <span>{ESTADO_COLORS[item.estado]?.label ?? item.estado}</span>
+              <span className="font-medium text-foreground">({item.tareas})</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

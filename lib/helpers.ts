@@ -127,11 +127,12 @@ export function calcularKPIs(tareas: Tarea[]) {
 export function calcularCumplimientoPorArea(tareas: Tarea[], areas: Area[]) {
   return areas.map((area) => {
     const tareasArea = tareas.filter((t) => t.areas.includes(area))
+    const realizadas = tareasArea.filter((t) => calcularEstado(t) === "Finalizado").length
     const avance =
       tareasArea.length > 0
         ? Math.round(tareasArea.reduce((acc, t) => acc + t.avanceTotal, 0) / tareasArea.length)
         : 0
-    return { area, avance, cantidad: tareasArea.length }
+    return { area, avance, cantidad: tareasArea.length, realizadas }
   }).filter(a => a.cantidad > 0)
 }
 

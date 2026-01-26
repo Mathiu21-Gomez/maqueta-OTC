@@ -24,6 +24,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
   Sheet,
   SheetClose,
   SheetContent,
@@ -40,7 +47,7 @@ import { cn } from "@/lib/utils"
 interface FormData {
   nombre: string
   descripcion: string
-  areas: Area[]
+  area: Area | null
   fechaInicio: string
   fechaFin: string
   prioridad: Prioridad
@@ -72,7 +79,7 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
     descripcion: "",
-    areas: [],
+    area: null,
     fechaInicio: "",
     fechaFin: "",
     prioridad: "Media",
@@ -91,7 +98,7 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
       setFormData({
         nombre: "",
         descripcion: "",
-        areas: [],
+        area: null,
         fechaInicio: "",
         fechaFin: "",
         prioridad: "Media",
@@ -125,8 +132,8 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
       newErrors.nombre = "El nombre es requerido"
     }
 
-    if (formData.areas.length === 0) {
-      newErrors.areas = "Selecciona al menos un área"
+    if (!formData.area) {
+      newErrors.areas = "Selecciona un área"
     }
 
     if (!formData.fechaInicio) {
@@ -174,7 +181,7 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
     agregarTarea({
       nombre: formData.nombre,
       descripcion: formData.descripcion,
-      areas: formData.areas,
+      areas: formData.area ? [formData.area] : [],
       fechaInicio: formData.fechaInicio,
       fechaFin: formData.fechaFin,
       diasEjecutar,
@@ -197,14 +204,7 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
     }, 1500)
   }
 
-  const toggleArea = (area: Area) => {
-    setFormData((prev) => ({
-      ...prev,
-      areas: prev.areas.includes(area)
-        ? prev.areas.filter((a) => a !== area)
-        : [...prev.areas, area],
-    }))
-  }
+
 
   const toggleAreaApoyo = (area: Area) => {
     setFormData((prev) => ({
@@ -396,31 +396,21 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
                 </Label>
               </div>
               <div className="pl-6">
-                <div className="grid grid-cols-2 gap-2">
-                  {AREAS.map((area) => {
-                    const isSelected = formData.areas.includes(area)
-                    return (
-                      <button
-                        key={area}
-                        type="button"
-                        onClick={() => toggleArea(area)}
-                        className={cn(
-                          "p-3 rounded-lg border-2 text-left transition-all",
-                          isSelected
-                            ? "border-blue-500 bg-blue-50"
-                            : "border-gray-200 bg-white hover:border-gray-300"
-                        )}
-                      >
-                        <span className={cn(
-                          "text-sm font-medium",
-                          isSelected ? "text-blue-700" : "text-gray-700"
-                        )}>
-                          {area}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
+                <Select
+                  value={formData.area || ""}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, area: value as Area }))}
+                >
+                  <SelectTrigger className={cn(errors.areas && "border-red-500")}>
+                    <SelectValue placeholder="Selecciona un área principal" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {AREAS.map((area) => (
+                      <SelectItem key={area} value={area}>
+                        {area}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {errors.areas && (
                   <p className="text-xs text-red-500 flex items-center gap-1 mt-2">
                     <AlertCircle className="w-3 h-3" />
@@ -501,7 +491,7 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
                   <div className="mt-3 space-y-2">
                     <Label className="text-sm">Áreas de apoyo</Label>
                     <div className="grid grid-cols-2 gap-2">
-                      {AREAS.filter((a) => !formData.areas.includes(a)).map((area) => {
+                      {AREAS.filter((a) => a !== formData.area).map((area) => {
                         const isSelected = formData.areasApoyo.includes(area)
                         return (
                           <button
@@ -630,17 +620,17 @@ export function NuevaTareaSheet({ open, onOpenChange }: NuevaTareaSheetProps) {
 
           <SheetFooter className="border-t pt-4 mt-4">
             <SheetClose asChild>
-              <Button 
-                type="button" 
-                variant="outline" 
+              <Button
+                type="button"
+                variant="outline"
                 disabled={isSubmitting}
                 className="border-red-300 text-red-700 bg-white hover:bg-red-50 hover:border-red-400 hover:text-red-800 font-medium"
               >
                 Cancelar
               </Button>
             </SheetClose>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isSubmitting || isSaved}
               className="bg-blue-600 hover:bg-blue-700 text-white font-medium"
             >

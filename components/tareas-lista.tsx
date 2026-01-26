@@ -25,7 +25,6 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -275,43 +274,65 @@ export function TareasLista() {
       <TareasMensualesBarChart data={tareasPorMes} />
 
       {/* Table */}
-      <Card>
+      <Card className="overflow-hidden py-0">
         <CardContent className="p-0">
           <Table>
-            <TableCaption className="mb-4">
-              Lista de tareas operacionales del sistema OTI
-            </TableCaption>
-            <TableHeader>
+            <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead className="w-[250px]">
-                  <Button variant="ghost" size="sm" className="-ml-3 h-8" onClick={() => handleSort("nombre")}>
-                    Nombre <ArrowUpDown className="ml-2 h-4 w-4" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="-ml-3 h-8 text-slate-700 font-semibold hover:text-slate-900 hover:bg-slate-100"
+                    onClick={() => handleSort("nombre")}
+                  >
+                    Nombre <ArrowUpDown className="ml-2 h-4 w-4 text-slate-500" />
                   </Button>
                 </TableHead>
-                <TableHead>Área(s)</TableHead>
+                <TableHead className="text-slate-700 font-semibold">Área(s)</TableHead>
                 <TableHead>
-                  <Button variant="ghost" size="sm" className="-ml-3 h-8" onClick={() => handleSort("estado")}>
-                    Estado <ArrowUpDown className="ml-2 h-4 w-4" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="-ml-3 h-8 text-slate-700 font-semibold hover:text-slate-900 hover:bg-slate-100"
+                    onClick={() => handleSort("estado")}
+                  >
+                    Estado <ArrowUpDown className="ml-2 h-4 w-4 text-slate-500" />
                   </Button>
                 </TableHead>
                 <TableHead>
-                  <Button variant="ghost" size="sm" className="-ml-3 h-8" onClick={() => handleSort("avanceTotal")}>
-                    Avance <ArrowUpDown className="ml-2 h-4 w-4" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="-ml-3 h-8 text-slate-700 font-semibold hover:text-slate-900 hover:bg-slate-100"
+                    onClick={() => handleSort("avanceTotal")}
+                  >
+                    Avance <ArrowUpDown className="ml-2 h-4 w-4 text-slate-500" />
                   </Button>
                 </TableHead>
-                <TableHead>Inicio</TableHead>
+                <TableHead className="text-slate-700 font-semibold">Inicio</TableHead>
                 <TableHead>
-                  <Button variant="ghost" size="sm" className="-ml-3 h-8" onClick={() => handleSort("fechaFin")}>
-                    Fin <ArrowUpDown className="ml-2 h-4 w-4" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="-ml-3 h-8 text-slate-700 font-semibold hover:text-slate-900 hover:bg-slate-100"
+                    onClick={() => handleSort("fechaFin")}
+                  >
+                    Fin <ArrowUpDown className="ml-2 h-4 w-4 text-slate-500" />
                   </Button>
                 </TableHead>
-                <TableHead>Días Rest.</TableHead>
+                <TableHead className="text-slate-700 font-semibold">Días Rest.</TableHead>
                 <TableHead>
-                  <Button variant="ghost" size="sm" className="-ml-3 h-8" onClick={() => handleSort("prioridad")}>
-                    Prior. <ArrowUpDown className="ml-2 h-4 w-4" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="-ml-3 h-8 text-slate-700 font-semibold hover:text-slate-900 hover:bg-slate-100"
+                    onClick={() => handleSort("prioridad")}
+                  >
+                    Prior. <ArrowUpDown className="ml-2 h-4 w-4 text-slate-500" />
                   </Button>
                 </TableHead>
-                <TableHead className="w-[80px]">Acciones</TableHead>
+                <TableHead className="w-[80px] text-slate-700 font-semibold">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -352,8 +373,8 @@ export function TareasLista() {
                       </TableCell>
                       <TableCell>
                         <span className={`font-medium ${estado === "Finalizado" ? "text-green-600" :
-                            estado === "Atrasado" ? "text-red-600" :
-                              estado === "En curso" ? "text-blue-600" : "text-yellow-600"
+                          estado === "Atrasado" ? "text-red-600" :
+                            estado === "En curso" ? "text-blue-600" : "text-yellow-600"
                           }`}>{estado}</span>
                       </TableCell>
                       <TableCell>
@@ -367,13 +388,17 @@ export function TareasLista() {
                       <TableCell className="text-muted-foreground">{formatearFecha(tarea.fechaInicio)}</TableCell>
                       <TableCell className="text-muted-foreground">{formatearFecha(tarea.fechaFin)}</TableCell>
                       <TableCell>
-                        <span className={`font-medium ${dias < 0 ? "text-red-600" : dias <= 5 ? "text-amber-600" : "text-muted-foreground"}`}>
-                          {dias < 0 ? `${Math.abs(dias)} atrasado` : `${dias} días`}
+                        <span className={`font-medium ${estado === "Finalizado" ? "text-emerald-600" :
+                          dias < 0 ? "text-red-600" :
+                            dias <= 5 ? "text-amber-600" : "text-muted-foreground"
+                          }`}>
+                          {estado === "Finalizado" ? "Completada" :
+                            dias < 0 ? `${Math.abs(dias)}d atrasado` : `${dias} días`}
                         </span>
                       </TableCell>
                       <TableCell>
                         <span className={`font-medium ${tarea.prioridad === "Alta" ? "text-red-600" :
-                            tarea.prioridad === "Media" ? "text-yellow-600" : "text-green-600"
+                          tarea.prioridad === "Media" ? "text-yellow-600" : "text-green-600"
                           }`}>{tarea.prioridad}</span>
                       </TableCell>
                       <TableCell>

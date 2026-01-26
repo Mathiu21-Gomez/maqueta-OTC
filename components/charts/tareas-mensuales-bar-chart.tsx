@@ -42,6 +42,14 @@ const chartConfigPlanificado = {
   },
 } satisfies ChartConfig
 
+interface ChartDataItem {
+  mes: string
+  mesIndex?: number
+  showGrouped?: boolean
+  nextMes?: string
+  [key: string]: number | string | boolean | undefined
+}
+
 function SingleBarChart({
   chartData,
   dataKey,
@@ -49,13 +57,17 @@ function SingleBarChart({
   subtitle,
   chartConfig,
   color,
+  showYear = false,
+  year,
 }: {
-  chartData: Array<{ mes: string; [key: string]: number | string }>
+  chartData: Array<ChartDataItem>
   dataKey: string
   title: string
   subtitle: string
   chartConfig: ChartConfig
   color: string
+  showYear?: boolean
+  year?: number
 }) {
   const [activeIndex, setActiveIndex] = React.useState<number | undefined>(undefined)
 
@@ -120,7 +132,7 @@ function SingleBarChart({
                 left: CHART_MARGIN,
                 top: 10,
                 right: 10,
-                bottom: 10,
+                bottom: 20,
               }}
             >
               <XAxis
@@ -129,6 +141,7 @@ function SingleBarChart({
                 tickMargin={8}
                 axisLine={false}
                 tick={{ fill: "#6B7280", fontSize: 11 }}
+                height={30}
               />
               <Bar dataKey={dataKey} fill={color} radius={[4, 4, 0, 0]}>
                 {chartData.map((_, index) => (
@@ -152,11 +165,22 @@ function SingleBarChart({
           </ChartContainer>
         </AnimatePresence>
       </div>
+      {/* Etiqueta del año debajo del gráfico */}
+      {showYear && year && (
+        <div className="text-center -mt-1">
+          <span className="text-xs font-medium text-[#374151]">
+            {year}
+          </span>
+        </div>
+      )}
     </div>
   )
 }
 
 export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) {
+  // Obtener el año actual
+  const currentYear = new Date().getFullYear()
+
   // Transformar datos para los 3 gráficos
   const chartDataTotal = useMemo(() => {
     return data
@@ -165,9 +189,11 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
         return {
           mes: MESES[item.mes]?.substring(0, 3) || "",
           total,
+          mesIndex: item.mes,
         }
       })
       .filter((item) => item.total > 0)
+      .sort((a, b) => a.mesIndex - b.mesIndex)
   }, [data])
 
   const chartDataEnCurso = useMemo(() => {
@@ -210,7 +236,7 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
     <div className="relative bg-white rounded-xl overflow-hidden shadow-sm flex flex-col">
       <div className="h-2 w-full" style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)' }} />
       <div className="px-6 pt-5 pb-0 flex flex-col">
-        <div className="mb-4">
+        <div className="mb-4 text-center">
           <h3 className="text-base font-semibold text-[#111827] mb-1">
             Tareas por Mes
           </h3>
@@ -228,6 +254,8 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
               subtitle="Todas las tareas"
               chartConfig={chartConfigTotal}
               color="var(--color-chart-2)"
+              showYear={true}
+              year={currentYear}
             />
           )}
 
@@ -240,6 +268,8 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
               subtitle="Tareas activas"
               chartConfig={chartConfigEnCurso}
               color="var(--color-chart-2)"
+              showYear={true}
+              year={currentYear}
             />
           )}
 
@@ -252,6 +282,8 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
               subtitle="Tareas programadas"
               chartConfig={chartConfigPlanificado}
               color="var(--color-chart-3)"
+              showYear={true}
+              year={currentYear}
             />
           )}
         </div>

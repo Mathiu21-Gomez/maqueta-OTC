@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
   ListTodo,
-  PlusCircle,
   User,
   Shield,
   Building2,
@@ -44,12 +43,11 @@ const navigationItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Tareas", url: "/tareas", icon: ListTodo },
   { title: "Mis Tareas", url: "/mis-tareas", icon: User },
-  { title: "Nueva Tarea", url: "/nueva-tarea", icon: PlusCircle },
 ]
 
 function AppSidebar() {
   const pathname = usePathname()
-  const { rol, setRol, areaUsuario, setAreaUsuario, setNuevaTareaSheetOpen } = useTaskContext()
+  const { rol, setRol, areaUsuario, setAreaUsuario } = useTaskContext()
 
   return (
     <Sidebar>
@@ -68,34 +66,16 @@ function AppSidebar() {
           <SidebarGroupLabel className="text-[11px] uppercase tracking-wider text-[#9CA3AF] font-semibold">Navegación</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navigationItems.map((item) => {
-                // Si es "Nueva Tarea", abrir el Sheet en lugar de navegar
-                if (item.title === "Nueva Tarea") {
-                  return (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton
-                        onClick={() => setNuevaTareaSheetOpen(true)}
-                        isActive={false}
-                      >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                }
-                
-                // Para los demás items, navegar normalmente
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={pathname === item.url}>
-                      <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                )
-              })}
+              {navigationItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
