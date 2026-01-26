@@ -87,7 +87,7 @@ function AppSidebar() {
             <button className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-all duration-150 hover:bg-sidebar-accent">
               {/* Avatar */}
               <img
-                src="/3e41d0768d4fe9bd835fad6807f1e431ac41a63a0afab7bddd62fe732c5e79d3._SX1080_FMjpg_.jpg"
+                src="/placeholder-user.jpg"
                 alt="Avatar"
                 className="h-9 w-9 rounded-lg object-cover"
               />
@@ -151,11 +151,11 @@ export function AppLayout({ children }: { children: ReactNode }) {
         {/* Page content */}
         <main className="p-4 lg:p-6">{children}</main>
       </SidebarInset>
-      
+
       {/* Nueva Tarea Sheet - Disponible en todas las páginas */}
-      <NuevaTareaSheet 
-        open={nuevaTareaSheetOpen} 
-        onOpenChange={setNuevaTareaSheetOpen} 
+      <NuevaTareaSheet
+        open={nuevaTareaSheetOpen}
+        onOpenChange={setNuevaTareaSheetOpen}
       />
     </SidebarProvider>
   )
