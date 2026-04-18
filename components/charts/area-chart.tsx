@@ -4,7 +4,7 @@ import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp } from "lucide-react"
-import type { Area } from "@/lib/types"
+import type { Area } from "@/features/tasks/domain/task.types"
 
 interface AreaChartProps {
   data: Array<{ area: Area; avance: number; cantidad: number; realizadas: number }>

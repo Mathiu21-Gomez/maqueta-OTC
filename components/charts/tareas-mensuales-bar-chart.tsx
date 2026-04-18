@@ -7,7 +7,7 @@ import { AnimatePresence } from "motion/react"
 import { Badge } from "@/components/ui/badge"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { useSpring, useMotionValueEvent } from "motion/react"
-import { MESES } from "@/lib/types"
+import { MESES } from "@/features/tasks/domain/task.constants"
 
 const CHART_MARGIN = 35
 

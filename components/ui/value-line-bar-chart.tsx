@@ -3,7 +3,7 @@
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, Cell, XAxis, ReferenceLine } from "recharts";
 import React from "react";
-import { AnimatePresence } from "motion/react";
+import { AnimatePresence, useMotionValueEvent, useSpring } from "motion/react";
 import {
   Card,
   CardContent,
@@ -15,7 +15,6 @@ import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { JetBrains_Mono } from "next/font/google";
-import { useMotionValueEvent, useSpring } from "framer-motion";
 
 const jetBrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -76,7 +75,7 @@ export function ValueLineBarChart() {
 
   const [springyValue, setSpringyValue] = React.useState(maxValueIndex.value);
 
-  useMotionValueEvent(maxValueIndexSpring, "change", (latest) => {
+  useMotionValueEvent(maxValueIndexSpring, "change", (latest: number) => {
     setSpringyValue(Number(latest.toFixed(0)));
   });
 

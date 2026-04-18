@@ -4,7 +4,7 @@ import { LabelList, Pie, PieChart } from "recharts"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Badge } from "@/components/ui/badge"
 import { TrendingUp, TrendingDown } from "lucide-react"
-import type { EstadoTarea } from "@/lib/types"
+import type { EstadoTarea } from "@/features/tasks/domain/task.types"
 
 // Rojo -> Atrasado | Azul -> Finalizado (Listo) | Amarillo -> En curso (Proceso)
 const ESTADO_COLORS: Record<string, { color: string; label: string }> = {

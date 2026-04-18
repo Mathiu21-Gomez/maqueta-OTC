@@ -1,11 +1,19 @@
-import React from "react"
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import type { Metadata, Viewport } from 'next'
+import { Cormorant_Garamond, Geist_Mono, Manrope } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+
+import { Providers } from '@/app/providers'
+
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const displayFont = Cormorant_Garamond({
+  subsets: ['latin'],
+  variable: '--font-cormorant',
+  weight: ['500', '600', '700'],
+})
+
+const uiFont = Manrope({ subsets: ['latin'], variable: '--font-manrope' })
+const dataFont = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 export const metadata: Metadata = {
   title: 'OTI - Sistema de Gestión Operacional',
@@ -17,15 +25,27 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f7f2ea' },
+    { media: '(prefers-color-scheme: dark)', color: '#12151a' },
+  ],
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
-        {children}
+    <html
+      lang="es"
+      suppressHydrationWarning
+      className={`${displayFont.variable} ${uiFont.variable} ${dataFont.variable}`}
+    >
+      <body className="font-sans antialiased">
+        <Providers>{children}</Providers>
         <Analytics />
       </body>
     </html>

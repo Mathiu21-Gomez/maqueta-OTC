@@ -1,0 +1,228 @@
+.otc-grid-shell {
+  background:
+    radial-gradient(circle at top right, rgba(185, 119, 73, 0.13), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.46), transparent 28%),
+    linear-gradient(135deg, rgba(37, 76, 92, 0.04), transparent 46%);
+}
+
+.otc-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: linear-gradient(180deg, var(--surface-panel-raised), var(--surface-panel));
+  box-shadow: var(--shadow-panel);
+}
+
+.otc-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--otc-panel-accent, linear-gradient(135deg, var(--chart-2), var(--chart-1)));
+}
+
+.otc-soft-panel {
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-panel-inset);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.otc-kpi-icon {
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.otc-section-kicker {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.otc-section-title,
+.otc-page-title {
+  font-family: var(--font-display-family);
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.otc-executive-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background:
+    radial-gradient(circle at top right, rgba(185, 119, 73, 0.16), transparent 26%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 251, 246, 0.7));
+  box-shadow: var(--shadow-panel);
+}
+
+.otc-executive-hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(159, 96, 55, 0.3), transparent);
+}
+
+.otc-metric-lockup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.otc-metric-value {
+  font-family: var(--font-display-family);
+  font-size: clamp(2rem, 1.55rem + 1.5vw, 3.4rem);
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+  color: var(--text-primary);
+}
+
+.otc-data-table {
+  --otc-table-head-bg: rgba(244, 239, 231, 0.88);
+  --otc-table-row-hover: rgba(185, 119, 73, 0.04);
+}
+
+.otc-data-table thead tr {
+  background: var(--otc-table-head-bg);
+}
+
+.otc-data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--otc-table-head-bg);
+  backdrop-filter: blur(10px);
+}
+
+.otc-data-table tbody td {
+  min-height: var(--density-row);
+}
+
+.otc-data-table tbody tr:hover {
+  background: var(--otc-table-row-hover);
+}
+
+.otc-data-table tbody tr:focus-within {
+  background: rgba(62, 106, 124, 0.08);
+}
+
+.otc-table-shell {
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: linear-gradient(180deg, var(--surface-panel-raised), var(--surface-panel));
+  box-shadow: var(--shadow-panel);
+}
+
+.otc-table-meta {
+  border-bottom: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.68), rgba(255, 253, 249, 0.46));
+}
+
+.otc-table-action {
+  min-width: 8.75rem;
+}
+
+.otc-glass-badge {
+  border-color: var(--border-subtle);
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(10px);
+}
+
+.otc-form-shell {
+  width: 100%;
+}
+
+.otc-form-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.otc-form-helper {
+  color: var(--text-tertiary);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.otc-form-error {
+  color: var(--destructive);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.otc-sticky-action-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  border-top: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--surface-overlay) 94%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.otc-sheet-shell {
+  overscroll-behavior: contain;
+}
+
+.otc-sheet-rail {
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-panel-inset);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.otc-chip-button {
+  transition:
+    border-color var(--motion-fast) var(--ease-standard),
+    background-color var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard);
+}
+
+.dark .otc-panel {
+  background: linear-gradient(180deg, var(--surface-panel-raised), var(--surface-panel));
+  box-shadow: var(--shadow-panel);
+}
+
+.dark .otc-soft-panel {
+  background: var(--surface-panel-inset);
+}
+
+.dark .otc-kpi-icon {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border-subtle);
+}
+
+.dark .otc-executive-hero {
+  background:
+    radial-gradient(circle at top right, rgba(211, 154, 103, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(31, 36, 44, 0.98), rgba(24, 29, 35, 0.9));
+}
+
+.dark .otc-data-table {
+  --otc-table-head-bg: rgba(24, 29, 35, 0.94);
+  --otc-table-row-hover: rgba(211, 154, 103, 0.06);
+}
+
+.dark .otc-data-table thead tr {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dark .otc-data-table tbody tr:hover {
+  background: rgba(211, 154, 103, 0.06);
+}
+
+.dark .otc-data-table tbody tr:focus-within {
+  background: rgba(108, 160, 199, 0.1);
+}
+
+.dark .otc-glass-badge {
+  background: rgba(24, 29, 35, 0.76);
+}
+
+.dark .otc-table-meta,
+.dark .otc-sticky-action-bar,
+.dark .otc-sheet-rail {
+  background: rgba(24, 29, 35, 0.84);
+}

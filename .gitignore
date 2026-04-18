@@ -9,6 +9,8 @@
 
 # production
 /build
+/test-results/
+/playwright-report/
 
 # debug
 npm-debug.log*
@@ -25,3 +27,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/.atl/

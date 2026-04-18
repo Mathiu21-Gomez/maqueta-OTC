@@ -5,8 +5,8 @@ import { LabelList, Pie, PieChart } from "recharts"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Badge } from "@/components/ui/badge"
 import { Clock } from "lucide-react"
-import type { Tarea } from "@/lib/types"
-import { AREAS } from "@/lib/types"
+import { AREAS } from "@/features/tasks/domain/task.constants"
+import type { Tarea } from "@/features/tasks/domain/task.types"
 
 const COLORS = [
   "#3B82F6",

@@ -7,9 +7,9 @@ import { AnimatePresence } from "motion/react"
 import { useSpring, useMotionValueEvent } from "motion/react"
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 import { Badge } from "@/components/ui/badge"
-import type { Tarea, Area } from "@/lib/types"
-import { AREAS } from "@/lib/types"
-import { calcularEstado } from "@/lib/helpers"
+import { AREAS } from "@/features/tasks/domain/task.constants"
+import { calcularEstado } from "@/features/tasks/domain/task.rules"
+import type { Tarea, Area } from "@/features/tasks/domain/task.types"
 
 const CHART_MARGIN = 35
 

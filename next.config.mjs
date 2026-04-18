@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // Type errors must fail the build; use `pnpm typecheck` locally before shipping.
   images: {
     unoptimized: true,
   },

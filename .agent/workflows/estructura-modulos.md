@@ -4,6 +4,22 @@ description: Guía de buenas prácticas y estructura de módulos del proyecto OT
 
 # Guía de Buenas Prácticas y Estructura del Proyecto
 
+## Phase 1 Foundation
+
+La base profesional actual del proyecto sigue esta direccion de importacion:
+
+```text
+app -> features -> shared
+```
+
+- `app/` solo compone rutas, metadata, layouts y providers.
+- `features/` concentra UI, estado y contratos del negocio por modulo.
+- `shared/` expone primitivas reutilizables, testing utilities y estilos comunes.
+- `shared/` nunca importa desde `features/` ni desde `app/`.
+- `app/providers.tsx` monta providers globales; las paginas no deben repetir wrappers.
+- `app/(workspace)/layout.tsx` monta el shell comun usando `features/shell/ui/workspace-shell.tsx`.
+- Mientras dure la migracion, `components/` y `lib/` pueden seguir existiendo como legacy adapters, pero las nuevas extracciones deben caer en `features/` o `shared/`.
+
 ## 📁 Estructura de Carpetas por Módulo
 
 Cada módulo sigue una estructura **feature-based**:

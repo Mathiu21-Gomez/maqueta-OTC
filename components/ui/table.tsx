@@ -5,8 +5,8 @@ import { cn } from '@/lib/utils';
 
 function Table({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) {
   return (
-    <div data-slot="table-wrapper" className="relative w-full overflow-auto">
-      <table data-slot="table" className={cn('w-full caption-bottom text-foreground text-sm', className)} {...props} />
+    <div data-slot="table-wrapper" className="relative w-full overflow-x-auto overscroll-x-contain">
+      <table data-slot="table" className={cn('min-w-full caption-bottom text-sm text-foreground', className)} {...props} />
     </div>
   );
 }
@@ -34,7 +34,7 @@ function TableRow({ className, ...props }: React.HTMLAttributes<HTMLTableRowElem
     <tr
       data-slot="table-row"
       className={cn(
-        'border-b transition-colors [&:has(td):hover]:bg-muted/50 data-[state=selected]:bg-muted',
+        'border-b transition-colors [&:has(td)]:outline-none [&:has(td):hover]:bg-muted/50 [&:has(td):focus-within]:bg-muted/60 data-[state=selected]:bg-muted',
         className,
       )}
       {...props}
