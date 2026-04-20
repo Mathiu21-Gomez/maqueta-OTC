@@ -2,10 +2,10 @@ import type { Area, EstadoTarea, Prioridad } from '@/features/tasks/domain/task.
 
 export function getEstadoColor(estado: EstadoTarea): string {
   const colores: Record<EstadoTarea, string> = {
-    Planificado: 'bg-amber-100 text-amber-800 border-amber-200',
-    'En curso': 'bg-blue-100 text-blue-800 border-blue-200',
-    Finalizado: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-    Atrasado: 'bg-red-100 text-red-800 border-red-200',
+    Planificado: 'bg-warning/15 text-warning-emphasis border-warning/25',
+    'En curso': 'bg-info/15 text-info-emphasis border-info/25',
+    Finalizado: 'bg-success/15 text-success-emphasis border-success/25',
+    Atrasado: 'bg-danger/15 text-danger-emphasis border-danger/25',
   }
 
   return colores[estado]
@@ -13,9 +13,9 @@ export function getEstadoColor(estado: EstadoTarea): string {
 
 export function getPrioridadColor(prioridad: Prioridad): string {
   const colores: Record<Prioridad, string> = {
-    Alta: 'bg-red-100 text-red-800 border-red-200',
-    Media: 'bg-amber-100 text-amber-800 border-amber-200',
-    Baja: 'bg-slate-100 text-slate-800 border-slate-200',
+    Alta: 'bg-danger/15 text-danger-emphasis border-danger/25',
+    Media: 'bg-warning/15 text-warning-emphasis border-warning/25',
+    Baja: 'bg-muted text-muted-foreground border-border',
   }
 
   return colores[prioridad]

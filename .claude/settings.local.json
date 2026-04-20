@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_engram_engram__mem_save",
+      "mcp__plugin_engram_engram__mem_session_summary",
+      "Skill(shadcn)",
+      "Bash(xargs -I {} basename {} .tsx)",
+      "Bash(xargs -I {} sh -c 'echo \"=== {} ===\"; grep -A 5 \"export const metadata\" {}')",
+      "Read(//c/Users/mathi/maqueta-OTC/public/**)",
+      "Read(//c/Users/mathi/maqueta-OTC/components/ui/**)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(python .claude/e2e-smoke.py)",
+      "Bash(where py *)",
+      "Bash(py --version)",
+      "Bash(npx playwright *)",
+      "Bash(node .claude/e2e-smoke.mjs)",
+      "Bash(node -e \"const r=require\\('./.claude/e2e-report.json'\\);for\\(const [route,vps] of Object.entries\\(r.routes\\)\\){for\\(const [v,d] of Object.entries\\(vps\\)\\){if\\(d.console_errors.length\\){console.log\\('---',route,v\\);d.console_errors.forEach\\(e=>console.log\\(e.text.slice\\(0,300\\)\\)\\)}}}\")",
+      "Bash(node -e \"const r=require\\('./.claude/e2e-report.json'\\);const d=r.routes['/mis-tareas'].desktop.console_errors[0];console.log\\(d.text\\)\")",
+      "Bash(node *)",
+      "Bash(kill %1)"
+    ]
+  }
+}

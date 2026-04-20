@@ -8,6 +8,7 @@ interface TaskStoreState {
   notifications: Notificacion[]
   tasks: Tarea[]
   markNotificationRead: (id: string) => void
+  markAllNotificationsRead: () => void
   replaceTask: (task: Tarea) => void
   setTasks: (tasks: Tarea[]) => void
 }
@@ -24,6 +25,13 @@ export const useTaskStore = create<TaskStoreState>((set) => ({
     set((state) => ({
       notifications: state.notifications.map((notification) =>
         notification.id === id ? { ...notification, leida: true } : notification,
+      ),
+    }))
+  },
+  markAllNotificationsRead: () => {
+    set((state) => ({
+      notifications: state.notifications.map((notification) =>
+        notification.leida ? notification : { ...notification, leida: true },
       ),
     }))
   },

@@ -105,7 +105,7 @@ export function CollaborativeTasksPage() {
           { label: 'En curso', value: summaryItems[1]?.value ?? '0' },
           { label: 'Promedio', value: `${stats.avancePromedio}%` },
         ]}
-        narrative="La lectura arranca por coordinacion y ritmo. El detalle aparece con CTA explicita para mantener control operacional claro."
+        narrative="Tareas con impacto en más de un área. Usá los filtros para aislar responsables y desbloquear las pendientes."
         actions={<Badge variant="outline" className="otc-glass-badge border-border/70 px-3 py-1 text-xs text-muted-foreground">{filteredTasks.length} visibles</Badge>}
       />
 
@@ -113,10 +113,10 @@ export function CollaborativeTasksPage() {
 
       <section className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)]">
         <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-5 py-4">
-          <p className="otc-section-kicker">Coordinacion</p>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">La friccion transversal se detecta antes del listado denso</h2>
+          <p className="otc-section-kicker">Coordinación</p>
+          <h2 className="mt-2 text-2xl font-semibold text-foreground">Dónde se traba la ejecución</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-            Este bloque deja visible el peso colaborativo y despues baja a la tabla para intervenir solo donde hace falta.
+            Panorama del trabajo que depende de varias áreas. La tabla de abajo permite bajar al detalle y actuar solo donde hace falta.
           </p>
         </div>
         <div className="otc-soft-panel flex items-center justify-between gap-4 rounded-[calc(var(--radius)+0.125rem)] px-5 py-4">
@@ -157,7 +157,7 @@ export function CollaborativeTasksPage() {
             <TableRow>
               <TableCell colSpan={3}>Resumen colaborativo</TableCell>
               <TableCell className="text-center">
-                <span className="text-emerald-600">{stats.finalizadas}</span> / <span className="text-red-600">{stats.atrasadas}</span>
+                <span className="text-success">{stats.finalizadas}</span> / <span className="text-danger">{stats.atrasadas}</span>
               </TableCell>
               <TableCell className="text-right font-medium">{stats.avancePromedio}% promedio</TableCell>
               <TableCell className="text-right font-medium">{filteredTasks.length} mostradas</TableCell>
@@ -205,7 +205,7 @@ function CollaborativeRow({ onSelect, task }: { onSelect: (task: Tarea) => void;
         )}
       </TableCell>
       <TableCell>
-        <span className={estado === 'Finalizado' ? 'font-medium text-emerald-600' : estado === 'Atrasado' ? 'font-medium text-red-600' : estado === 'En curso' ? 'font-medium text-[var(--chart-2)]' : 'font-medium text-[var(--chart-3)]'}>{estado}</span>
+        <span className={estado === 'Finalizado' ? 'font-medium text-success' : estado === 'Atrasado' ? 'font-medium text-danger' : estado === 'En curso' ? 'font-medium text-info' : 'font-medium text-warning'}>{estado}</span>
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2">

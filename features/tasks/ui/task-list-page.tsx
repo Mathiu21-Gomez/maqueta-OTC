@@ -116,18 +116,9 @@ export function TaskListPage() {
         prioridad={{ value: prioridadFilter, onChange: (value) => { setPrioridadFilter(value); setCurrentPage(1) } }}
       />
 
-      <section className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)]">
-        <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-5 py-4">
-          <p className="otc-section-kicker">Narrativa</p>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">La tabla ya no compite con el contexto</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-            El framing ejecutivo llega antes que la densidad: estado general, evolucion mensual y accion explicita para abrir el detalle.
-          </p>
-        </div>
-        <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-5 py-4">
-          <p className="otc-section-kicker">Ritmo mensual</p>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">Este corte ayuda a validar si la lista responde a un pico puntual o a una tendencia sostenida.</p>
-        </div>
+      <section className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-5 py-4">
+        <p className="otc-section-kicker">Ritmo mensual</p>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">Evolución de tareas creadas y cerradas en los últimos meses.</p>
       </section>
 
       <TareasMensualesBarChart data={chartData} />

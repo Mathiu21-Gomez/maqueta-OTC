@@ -42,8 +42,8 @@ export function TaskPageHeader({ actions, description, eyebrow, meta, narrative,
 
         <div className="otc-sheet-rail flex flex-col justify-between gap-4 rounded-[calc(var(--radius)+0.125rem)] p-4 sm:p-5">
           <div className="space-y-2">
-            <p className="otc-section-kicker">Lectura sugerida</p>
-            <p className="text-sm leading-6 text-muted-foreground">{narrative ?? 'Abri primero el frente con mayor desvio y despues baja al detalle solo si hace falta intervenir.'}</p>
+            <p className="otc-section-kicker">Recomendación</p>
+            <p className="text-sm leading-6 text-muted-foreground">{narrative ?? 'Priorizá las tareas con mayor desvío antes de entrar al detalle.'}</p>
           </div>
           {actions ? <div className="flex flex-wrap items-center gap-3">{actions}</div> : null}
         </div>

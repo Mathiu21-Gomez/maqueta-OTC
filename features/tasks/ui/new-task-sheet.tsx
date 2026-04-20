@@ -305,7 +305,7 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
               </motion.section>
 
               <motion.section className="space-y-5" {...getMotionProps(0.09)}>
-                <SheetSection title="Ejecucion" description="Define actividades y, si hace falta, adjunta evidencia simulada.">
+                <SheetSection title="Ejecución" description="Define actividades y adjunta los respaldos que correspondan.">
                   <FieldRow fieldId="sheet-activities" label="Actividades *" error={errors.actividades} helper="Cada actividad suma claridad y ordena el progreso futuro.">
                     <div id="sheet-activities" className="space-y-3" tabIndex={-1}>
                       {draft.actividades.map((activity, index) => (
@@ -339,7 +339,7 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
                       toast({ title: 'Documento agregado', description: `${document.nombre} fue adjuntado.` })
                     }}>
                       <Upload data-icon="inline-start" />
-                      Agregar documento simulado
+                      Adjuntar documento
                     </Button>
                     <div className="flex flex-col gap-2">
                       {draft.documentos.length > 0 ? (
@@ -347,7 +347,7 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
                           <div key={`${document.nombre}-${index}`} className="otc-soft-panel flex items-center justify-between gap-3 rounded-[calc(var(--radius)+0.125rem)] px-4 py-3">
                             <div className="min-w-0">
                               <p className="line-clamp-1 text-sm font-medium text-foreground">{document.nombre}</p>
-                              <p className="text-xs text-muted-foreground">Documento de soporte para la demo.</p>
+                              <p className="text-xs text-muted-foreground">Documento de respaldo.</p>
                             </div>
                             <Button type="button" variant="ghost" size="icon" aria-label={`Eliminar ${document.nombre}`} onClick={() => setDraft((current) => ({ ...current, documentos: current.documentos.filter((_, currentIndex) => currentIndex !== index) }))}>
                               <Trash2 aria-hidden="true" />
@@ -355,7 +355,7 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
                           </div>
                         ))
                       ) : (
-                        <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-4 py-3 text-sm text-muted-foreground">Todavia no agregaste evidencia simulada.</div>
+                        <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-4 py-3 text-sm text-muted-foreground">Sin documentos adjuntos.</div>
                       )}
                     </div>
                   </div>
@@ -364,8 +364,8 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
 
               <SheetFooter className="otc-sticky-action-bar border-t border-border/70 px-0 pt-4 sm:flex-row sm:items-center sm:justify-between sm:px-0">
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Guardar sin perder contexto</p>
-                  <p className="text-sm text-muted-foreground">El CTA queda fijo y la motion se reduce automaticamente si el usuario asi lo prefiere.</p>
+                  <p className="text-sm font-semibold text-foreground">Confirmá la creación</p>
+                  <p className="text-sm text-muted-foreground">Los datos cargados quedarán disponibles en el backlog.</p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <Button type="button" variant="outline" disabled={isSubmitting} onClick={() => handleOpenChange(false)}>

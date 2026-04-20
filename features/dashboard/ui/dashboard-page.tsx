@@ -54,9 +54,9 @@ export function DashboardPage() {
             <div className="space-y-3">
               <span className="otc-section-kicker">Resumen ejecutivo</span>
               <div className="space-y-3">
-                <h1 className="otc-section-title text-4xl font-semibold text-foreground sm:text-5xl">Dashboard de cartera OTC</h1>
+                <h1 className="otc-section-title text-4xl font-semibold text-foreground sm:text-5xl">Panel de cartera</h1>
                 <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-[0.95rem]">
-                  La primera lectura concentra salud del portafolio, desviaciones prioritarias y el siguiente frente operativo sin obligarte a bajar al detalle.
+                  Estado del portafolio, desviaciones críticas y próximos frentes operativos en una sola vista.
                 </p>
               </div>
             </div>
@@ -110,16 +110,16 @@ export function DashboardPage() {
 
       <section className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)]">
         <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-5 py-4">
-          <p className="otc-section-kicker">Lectura de tendencia</p>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">Donde mirar despues del headline</h2>
+          <p className="otc-section-kicker">Tendencias</p>
+          <h2 className="mt-2 text-2xl font-semibold text-foreground">Ritmo mensual y vencimientos</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-            El segundo nivel baja al ritmo por mes y a la presion de vencimientos. Si el headline cambia, aca deberia verse el por que antes de abrir una tarea puntual.
+            Evolución de tareas por mes y presión de vencimientos próximos. Útil para detectar desvíos antes de entrar al detalle de cada tarea.
           </p>
         </div>
         <div className="otc-soft-panel flex items-center justify-between gap-4 rounded-[calc(var(--radius)+0.125rem)] px-5 py-4">
           <div>
             <p className="otc-section-kicker">Detalle operativo</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">La capa siguiente ya entra a carga y cumplimiento por periodo.</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">Ir al listado completo con filtros por área, estado y responsable.</p>
           </div>
           <ArrowRight className="size-5 text-muted-foreground" aria-hidden="true" />
         </div>

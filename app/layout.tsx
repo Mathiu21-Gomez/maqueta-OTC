@@ -1,24 +1,32 @@
 import type { Metadata, Viewport } from 'next'
-import { Cormorant_Garamond, Geist_Mono, Manrope } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 
 import { Providers } from '@/app/providers'
 
 import './globals.css'
 
-const displayFont = Cormorant_Garamond({
+const sansFont = Geist({
   subsets: ['latin'],
-  variable: '--font-cormorant',
-  weight: ['500', '600', '700'],
+  variable: '--font-geist-sans',
+  display: 'swap',
 })
 
-const uiFont = Manrope({ subsets: ['latin'], variable: '--font-manrope' })
-const dataFont = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+const monoFont = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'OTI - Sistema de Gestión Operacional',
-  description: 'Gestión de tareas operacionales para Oleoducto Trasandino',
-  generator: 'v0.app',
+  title: {
+    default: 'OTC Boardroom · Gestión operacional',
+    template: '%s · OTC Boardroom',
+  },
+  description:
+    'Plataforma de gestión operacional de Oleoducto Trasandino. Coordinación de tareas, seguimiento de cartera y visibilidad entre áreas.',
+  applicationName: 'OTC Boardroom',
+  authors: [{ name: 'Oleoducto Trasandino' }],
   icons: {
     icon: '/logo.svg',
     apple: '/logo.svg',
@@ -42,7 +50,7 @@ export default function RootLayout({
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${displayFont.variable} ${uiFont.variable} ${dataFont.variable}`}
+      className={`${sansFont.variable} ${monoFont.variable}`}
     >
       <body className="font-sans antialiased">
         <Providers>{children}</Providers>

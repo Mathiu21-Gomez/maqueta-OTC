@@ -1,5 +1,7 @@
 import type { LucideIcon } from 'lucide-react'
-import { Building2, LayoutDashboard, ListTodo, PlusSquare, User } from 'lucide-react'
+import { Building2, CalendarDays, LayoutDashboard, ListTodo, PlusSquare, User } from 'lucide-react'
+
+export type ShellNavigationGroup = 'Operación' | 'Crear'
 
 export interface ShellNavigationItem {
   title: string
@@ -7,6 +9,8 @@ export interface ShellNavigationItem {
   icon: LucideIcon
   section: string
   summary: string
+  group: ShellNavigationGroup
+  shortcut: string
 }
 
 export interface ShellRouteMeta {
@@ -25,44 +29,65 @@ export const navigationItems: ShellNavigationItem[] = [
     title: 'Dashboard',
     url: '/',
     icon: LayoutDashboard,
-    section: 'Control central',
-    summary: 'Panorama general de avance, vencimientos y carga operacional.',
+    section: 'Panorama',
+    summary: 'Estado general de cartera y vencimientos.',
+    group: 'Operación',
+    shortcut: 'G D',
   },
   {
     title: 'Tareas',
     url: '/tareas',
     icon: ListTodo,
-    section: 'Operacion diaria',
-    summary: 'Seguimiento de backlog, filtros y detalle operativo.',
+    section: 'Backlog',
+    summary: 'Listado, filtros y detalle operativo.',
+    group: 'Operación',
+    shortcut: 'G T',
+  },
+  {
+    title: 'Calendario',
+    url: '/calendario',
+    icon: CalendarDays,
+    section: 'Agenda',
+    summary: 'Inicios, entregas y vencimientos por mes.',
+    group: 'Operación',
+    shortcut: 'G C',
   },
   {
     title: 'Mis tareas',
     url: '/mis-tareas',
     icon: User,
-    section: 'Ownership',
-    summary: 'Prioridades personales, colaboracion y compromisos vigentes.',
+    section: 'Personal',
+    summary: 'Compromisos asignados y próximos vencimientos.',
+    group: 'Operación',
+    shortcut: 'G M',
   },
   {
     title: 'Colaborativas',
     url: '/colaborativas',
     icon: Building2,
-    section: 'Coordinacion',
-    summary: 'Trabajo transversal entre areas y dependencias compartidas.',
+    section: 'Transversal',
+    summary: 'Tareas con múltiples áreas involucradas.',
+    group: 'Operación',
+    shortcut: 'G X',
   },
   {
     title: 'Nueva tarea',
     url: '/nueva-tarea',
     icon: PlusSquare,
-    section: 'Planeamiento',
-    summary: 'Carga guiada para nuevas iniciativas dentro del demo.',
+    section: 'Crear',
+    summary: 'Alta estructurada de una nueva iniciativa.',
+    group: 'Crear',
+    shortcut: 'N',
   },
 ]
 
+export const navigationGroups: ShellNavigationGroup[] = ['Operación', 'Crear']
+
 const routeMetaByPath: Record<string, ShellRouteMeta> = {
   '/': {
-    eyebrow: 'Resumen ejecutivo',
+    eyebrow: 'Panorama',
     title: 'Dashboard operacional',
-    description: 'Lectura rapida de cartera, ritmo de ejecucion y focos inmediatos.',
+    description: 'Estado de cartera, ritmo de ejecución y focos del período.',
     breadcrumb: ['Workspace', 'Dashboard'],
     meta: [
       { label: 'Vista', value: 'Portafolio' },
@@ -70,42 +95,52 @@ const routeMetaByPath: Record<string, ShellRouteMeta> = {
     ],
   },
   '/tareas': {
-    eyebrow: 'Supervision activa',
+    eyebrow: 'Backlog',
     title: 'Lista de tareas',
-    description: 'Backlog operativo con filtros, prioridad y trazabilidad visible.',
+    description: 'Backlog operativo con filtros por área, estado y prioridad.',
     breadcrumb: ['Workspace', 'Tareas'],
     meta: [
-      { label: 'Modo', value: 'Analitico' },
+      { label: 'Modo', value: 'Analítico' },
       { label: 'Foco', value: 'Entrega' },
     ],
   },
+  '/calendario': {
+    eyebrow: 'Agenda',
+    title: 'Calendario operacional',
+    description: 'Inicios, entregas y vencimientos del mes por área.',
+    breadcrumb: ['Workspace', 'Calendario'],
+    meta: [
+      { label: 'Vista', value: 'Mes' },
+      { label: 'Cadencia', value: 'Semanal' },
+    ],
+  },
   '/mis-tareas': {
-    eyebrow: 'Ownership por area',
+    eyebrow: 'Personal',
     title: 'Mis tareas',
-    description: 'Compromisos asignados, colaboracion y riesgos cercanos por vencer.',
+    description: 'Compromisos asignados y riesgos por vencer.',
     breadcrumb: ['Workspace', 'Mis tareas'],
     meta: [
       { label: 'Prioridad', value: 'Owner' },
-      { label: 'Lectura', value: 'Personal' },
+      { label: 'Vista', value: 'Personal' },
     ],
   },
   '/colaborativas': {
-    eyebrow: 'Coordinacion transversal',
+    eyebrow: 'Transversal',
     title: 'Tareas colaborativas',
-    description: 'Seguimiento inter-area para tareas con multiples frentes operativos.',
+    description: 'Seguimiento inter-área para iniciativas con múltiples frentes.',
     breadcrumb: ['Workspace', 'Colaborativas'],
     meta: [
-      { label: 'Matriz', value: 'Multi-area' },
-      { label: 'Lectura', value: 'Shared' },
+      { label: 'Matriz', value: 'Multi-área' },
+      { label: 'Vista', value: 'Compartida' },
     ],
   },
   '/nueva-tarea': {
-    eyebrow: 'Planeamiento guiado',
+    eyebrow: 'Crear',
     title: 'Nueva tarea',
-    description: 'Carga estructurada para alta de iniciativas dentro del entorno demo.',
+    description: 'Carga estructurada para alta de una nueva iniciativa.',
     breadcrumb: ['Workspace', 'Nueva tarea'],
     meta: [
-      { label: 'Modo', value: 'Creacion' },
+      { label: 'Modo', value: 'Creación' },
       { label: 'Formato', value: 'Guiado' },
     ],
   },

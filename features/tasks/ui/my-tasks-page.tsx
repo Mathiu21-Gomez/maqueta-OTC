@@ -181,7 +181,7 @@ export function MyTasksPage() {
               <TableRow>
                 <TableCell colSpan={3}>Resumen colaborativo</TableCell>
                 <TableCell className="text-center">
-                  <span className="text-emerald-600">{collaborativeStats.finalizadas}</span> / <span className="text-red-600">{collaborativeStats.atrasadas}</span>
+                  <span className="text-success">{collaborativeStats.finalizadas}</span> / <span className="text-danger">{collaborativeStats.atrasadas}</span>
                 </TableCell>
                 <TableCell className="text-right font-medium">{collaborativeStats.avancePromedio}% promedio</TableCell>
                 <TableCell className="text-right font-medium">{filteredCollaborativeTasks.length} visibles</TableCell>
@@ -237,7 +237,7 @@ function CollaborativeRow({ onSelect, task }: { onSelect: (task: Tarea) => void;
         )}
       </TableCell>
       <TableCell>
-        <span className={estado === 'Finalizado' ? 'font-medium text-emerald-600' : estado === 'Atrasado' ? 'font-medium text-red-600' : estado === 'En curso' ? 'font-medium text-[var(--chart-2)]' : 'font-medium text-[var(--chart-3)]'}>{estado}</span>
+        <span className={estado === 'Finalizado' ? 'font-medium text-success' : estado === 'Atrasado' ? 'font-medium text-danger' : estado === 'En curso' ? 'font-medium text-info' : 'font-medium text-warning'}>{estado}</span>
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2">

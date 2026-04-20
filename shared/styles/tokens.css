@@ -22,9 +22,22 @@
   --otc-danger: #b04b43;
   --otc-info: #356b96;
 
-  --font-display-family: var(--font-cormorant), 'Times New Roman', serif;
-  --font-ui-family: var(--font-manrope), 'Segoe UI', sans-serif;
-  --font-data-family: var(--font-geist-mono), 'SFMono-Regular', monospace;
+  --success: var(--otc-success);
+  --success-foreground: #fffdf9;
+  --success-emphasis: #1a5c42;
+  --warning: var(--otc-warning);
+  --warning-foreground: #fffdf9;
+  --warning-emphasis: #7a4e18;
+  --danger: var(--otc-danger);
+  --danger-foreground: #fffdf9;
+  --danger-emphasis: #7a3028;
+  --info: var(--otc-info);
+  --info-foreground: #fffdf9;
+  --info-emphasis: #1f3f5a;
+
+  --font-ui-family: var(--font-geist-sans), 'Segoe UI', system-ui, sans-serif;
+  --font-display-family: var(--font-geist-sans), 'Segoe UI', system-ui, sans-serif;
+  --font-data-family: var(--font-geist-mono), 'SFMono-Regular', ui-monospace, monospace;
 
   --surface-canvas: #f7f2ea;
   --surface-shell: rgba(255, 252, 247, 0.8);
@@ -33,6 +46,13 @@
   --surface-panel-inset: rgba(244, 239, 231, 0.72);
   --surface-overlay: rgba(255, 252, 247, 0.98);
   --surface-accent: rgba(185, 119, 73, 0.08);
+  --surface-translucent: rgba(255, 255, 255, 0.55);
+  --surface-translucent-hover: rgba(255, 255, 255, 0.72);
+  --surface-translucent-strong: rgba(255, 255, 255, 0.7);
+  --shell-frame-bg: linear-gradient(180deg, rgba(255, 252, 247, 0.78), rgba(255, 252, 247, 0.56));
+  --shell-meta-card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 253, 249, 0.7));
+  --shell-badge-bg: rgba(255, 255, 255, 0.62);
+  --route-stage-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.58), transparent 22%), linear-gradient(180deg, rgba(255, 253, 250, 0.88), rgba(255, 251, 246, 0.7));
 
   --text-primary: var(--otc-graphite-950);
   --text-secondary: #49505d;
@@ -112,6 +132,13 @@
   --surface-panel-inset: rgba(22, 26, 32, 0.84);
   --surface-overlay: rgba(24, 29, 35, 0.98);
   --surface-accent: rgba(211, 154, 103, 0.1);
+  --surface-translucent: rgba(255, 255, 255, 0.04);
+  --surface-translucent-hover: rgba(255, 255, 255, 0.08);
+  --surface-translucent-strong: rgba(255, 255, 255, 0.06);
+  --shell-frame-bg: linear-gradient(180deg, rgba(18, 21, 26, 0.8), rgba(18, 21, 26, 0.6));
+  --shell-meta-card-bg: rgba(24, 29, 35, 0.72);
+  --shell-badge-bg: rgba(24, 29, 35, 0.72);
+  --route-stage-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%), linear-gradient(180deg, rgba(26, 31, 38, 0.9), rgba(22, 26, 32, 0.78));
 
   --text-primary: #f8f3ec;
   --text-secondary: #d7cfc3;
@@ -145,6 +172,19 @@
   --accent-foreground: #e6b990;
   --destructive: #cc685f;
   --destructive-foreground: #fffdf9;
+
+  --success: #4a9c7c;
+  --success-foreground: #0a1a13;
+  --success-emphasis: #86c7a7;
+  --warning: #d3a057;
+  --warning-foreground: #1a1107;
+  --warning-emphasis: #e6c088;
+  --danger: #cc685f;
+  --danger-foreground: #1a0a08;
+  --danger-emphasis: #e69a92;
+  --info: #6ca0c7;
+  --info-foreground: #071420;
+  --info-emphasis: #9cc0db;
   --border: var(--border-default);
   --input: var(--border-strong);
   --ring: rgba(211, 154, 103, 0.35);
@@ -187,6 +227,21 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-emphasis: var(--success-emphasis);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-emphasis: var(--warning-emphasis);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-danger-emphasis: var(--danger-emphasis);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-emphasis: var(--info-emphasis);
+  --color-surface-translucent: var(--surface-translucent);
+  --color-surface-translucent-hover: var(--surface-translucent-hover);
+  --color-surface-translucent-strong: var(--surface-translucent-strong);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

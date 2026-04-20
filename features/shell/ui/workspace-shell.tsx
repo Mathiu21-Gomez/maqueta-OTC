@@ -7,6 +7,7 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { useShellStore } from '@/features/shell/application/shell.store'
 
 import { AppSidebar } from '@/features/shell/ui/app-sidebar'
+import { KeyboardShortcuts } from '@/features/shell/ui/keyboard-shortcuts'
 import { NewTaskSheet } from '@/features/tasks/ui/new-task-sheet'
 import { TaskStoreHydrator } from '@/features/tasks/ui/task-store-hydrator'
 import { Topbar } from '@/features/shell/ui/topbar'
@@ -23,6 +24,7 @@ export function WorkspaceShell({ children }: WorkspaceShellProps) {
   return (
     <SidebarProvider className="otc-shell-canvas">
       <TaskStoreHydrator />
+      <KeyboardShortcuts />
       <a href="#main-content" className="otc-skip-link">
         Saltar al contenido principal
       </a>

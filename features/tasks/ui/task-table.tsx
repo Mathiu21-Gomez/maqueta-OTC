@@ -84,8 +84,8 @@ export function TaskTable({ onOpenTask, onSort, sortDirection, sortField, stats,
                   <TableCell className="font-medium">
                     <div className="flex min-w-0 items-start gap-3">
                       <div className="mt-0.5 flex items-center gap-2">
-                        {task.prioridad === 'Alta' ? <Zap className="size-4 text-red-500" aria-hidden="true" /> : null}
-                        {esColaborativa ? <Users className="size-4 text-[var(--chart-2)]" aria-hidden="true" /> : null}
+                        {task.prioridad === 'Alta' ? <Zap className="size-4 text-danger" aria-hidden="true" /> : null}
+                        {esColaborativa ? <Users className="size-4 text-info" aria-hidden="true" /> : null}
                       </div>
                       <div className="min-w-0 space-y-1">
                         <span className="block line-clamp-1">{task.nombre}</span>
@@ -152,10 +152,10 @@ export function TaskTable({ onOpenTask, onSort, sortDirection, sortField, stats,
             <TableCell colSpan={3}>Resumen de tareas filtradas</TableCell>
             <TableCell className="text-right font-medium">{stats.avancePromedio}% promedio</TableCell>
             <TableCell colSpan={2} className="text-center">
-              <span className="text-emerald-600">{stats.finalizadas}</span> finalizadas
+              <span className="text-success">{stats.finalizadas}</span> finalizadas
             </TableCell>
             <TableCell colSpan={2} className="text-center">
-              <span className="text-red-600">{stats.atrasadas}</span> atrasadas
+              <span className="text-danger">{stats.atrasadas}</span> atrasadas
             </TableCell>
             <TableCell className="text-right font-medium">{stats.total} total</TableCell>
           </TableRow>
@@ -185,23 +185,23 @@ function SortableHead({ active, field, label, onSort, sortDirection }: SortableH
 }
 
 function getDaysTone(estado: string, dias: number) {
-  if (estado === 'Finalizado') return 'font-medium text-emerald-600'
-  if (dias < 0) return 'font-medium text-red-600'
-  if (dias <= 5) return 'font-medium text-amber-600'
+  if (estado === 'Finalizado') return 'font-medium text-success'
+  if (dias < 0) return 'font-medium text-danger'
+  if (dias <= 5) return 'font-medium text-warning'
   return 'font-medium text-muted-foreground'
 }
 
 function getPriorityTone(prioridad: Prioridad) {
-  if (prioridad === 'Alta') return 'font-medium text-red-600'
-  if (prioridad === 'Media') return 'font-medium text-amber-600'
-  return 'font-medium text-emerald-700'
+  if (prioridad === 'Alta') return 'font-medium text-danger'
+  if (prioridad === 'Media') return 'font-medium text-warning'
+  return 'font-medium text-success-emphasis'
 }
 
 function getStatusTone(estado: string) {
-  if (estado === 'Finalizado') return 'font-medium text-emerald-600'
-  if (estado === 'Atrasado') return 'font-medium text-red-600'
-  if (estado === 'En curso') return 'font-medium text-[var(--chart-2)]'
-  return 'font-medium text-[var(--chart-3)]'
+  if (estado === 'Finalizado') return 'font-medium text-success'
+  if (estado === 'Atrasado') return 'font-medium text-danger'
+  if (estado === 'En curso') return 'font-medium text-info'
+  return 'font-medium text-warning'
 }
 
 function getTaskRowTone(task: Tarea) {

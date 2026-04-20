@@ -175,7 +175,7 @@ export function NewTaskRoute() {
                   />
                 </FieldBlock>
 
-                <FieldBlock fieldId="fechaFin" htmlFor="fechaFin" label="Fecha de fin *" error={errors.fechaFin} helper="Debe ser posterior al inicio para sostener la narrativa de planificacion.">
+                <FieldBlock fieldId="fechaFin" htmlFor="fechaFin" label="Fecha de fin *" error={errors.fechaFin} helper="Debe ser posterior a la fecha de inicio.">
                   <Input
                     id="fechaFin"
                     name="fechaFin"
@@ -275,14 +275,14 @@ export function NewTaskRoute() {
           </div>
 
           <div className="flex flex-col gap-6">
-            <FormSection title="Documentos" description="Adjunta evidencia simulada solo si ayuda a contar la historia del caso.">
+            <FormSection title="Documentos" description="Adjuntá respaldos relevantes para la iniciativa.">
               <Button type="button" variant="outline" onClick={() => {
                 const document = createDocumentDraft()
                 setDraft((current) => ({ ...current, documentos: [...current.documentos, document] }))
                 toast({ title: 'Documento agregado', description: `${document.nombre} fue adjuntado.` })
               }}>
                 <Upload data-icon="inline-start" />
-                Agregar documento simulado
+                Adjuntar documento
               </Button>
 
               <div className="flex flex-col gap-2">
@@ -291,7 +291,7 @@ export function NewTaskRoute() {
                     <div key={`${document.nombre}-${index}`} className="otc-soft-panel flex items-center justify-between gap-3 rounded-[calc(var(--radius)+0.125rem)] px-4 py-3">
                       <div className="min-w-0">
                         <p className="line-clamp-1 text-sm font-medium text-foreground">{document.nombre}</p>
-                        <p className="text-xs text-muted-foreground">Documento de soporte para la demo.</p>
+                        <p className="text-xs text-muted-foreground">Documento de respaldo.</p>
                       </div>
                       <Button type="button" variant="ghost" size="icon" aria-label={`Eliminar ${document.nombre}`} onClick={() => setDraft((current) => ({ ...current, documentos: current.documentos.filter((_, currentIndex) => currentIndex !== index) }))}>
                         <Trash2 aria-hidden="true" />
@@ -299,7 +299,7 @@ export function NewTaskRoute() {
                     </div>
                   ))
                 ) : (
-                  <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-4 py-3 text-sm text-muted-foreground">Todavia no agregaste evidencia simulada.</div>
+                  <div className="otc-soft-panel rounded-[calc(var(--radius)+0.125rem)] px-4 py-3 text-sm text-muted-foreground">Sin documentos adjuntos.</div>
                 )}
               </div>
             </FormSection>

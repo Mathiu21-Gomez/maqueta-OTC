@@ -93,17 +93,17 @@ function TaskCard({ onSelectTask, showPrimaryArea, task }: TaskCardProps) {
 }
 
 function getRemainingTone(estado: string, dias: number) {
-  if (estado === 'Finalizado') return 'text-xs font-medium text-emerald-600'
-  if (dias < 0) return 'text-xs font-medium text-red-600'
-  if (dias <= 5) return 'text-xs font-medium text-amber-600'
+  if (estado === 'Finalizado') return 'text-xs font-medium text-success'
+  if (dias < 0) return 'text-xs font-medium text-danger'
+  if (dias <= 5) return 'text-xs font-medium text-warning'
   return 'text-xs font-medium text-muted-foreground'
 }
 
 function getStatusIcon(estado: Tarea['estado'], dias: number) {
-  if (estado === 'Atrasado') return <AlertCircle className="size-5 text-red-500" />
-  if (estado === 'Finalizado') return <CheckCircle className="size-5 text-emerald-500" />
-  if (dias <= 5) return <AlertCircle className="size-5 text-amber-500" />
-  return <Clock3 className="size-5 text-[var(--chart-2)]" />
+  if (estado === 'Atrasado') return <AlertCircle className="size-5 text-danger" />
+  if (estado === 'Finalizado') return <CheckCircle className="size-5 text-success" />
+  if (dias <= 5) return <AlertCircle className="size-5 text-warning" />
+  return <Clock3 className="size-5 text-info" />
 }
 
 function getTaskAccent(estado: Tarea['estado'], prioridad: Tarea['prioridad']) {
