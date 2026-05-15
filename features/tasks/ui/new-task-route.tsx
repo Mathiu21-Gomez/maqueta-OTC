@@ -34,14 +34,16 @@ export function NewTaskRoute() {
   const [errors, setErrors] = useState<ReturnType<typeof validateTaskDraft>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
+  const [createdTaskId, setCreatedTaskId] = useState<string | null>(null)
 
   const executionDays = useMemo(() => calculateExecutionDays(draft.fechaInicio, draft.fechaFin), [draft.fechaFin, draft.fechaInicio])
 
   useEffect(() => {
     if (!isSaved) return
-    const timer = window.setTimeout(() => router.push('/tareas'), 1200)
+    const destino = createdTaskId ? `/tareas?tarea=${createdTaskId}` : '/tareas'
+    const timer = window.setTimeout(() => router.push(destino), 1200)
     return () => window.clearTimeout(timer)
-  }, [isSaved, router])
+  }, [isSaved, createdTaskId, router])
 
   const focusFirstError = (validationErrors: ReturnType<typeof validateTaskDraft>) => {
     const firstField = getFirstInvalidField(validationErrors)
@@ -73,7 +75,7 @@ export function NewTaskRoute() {
 
     setIsSubmitting(true)
     try {
-      await createTask(
+      const task = await createTask(
         {
           actividades: sanitizeActivities(draft.actividades),
           areas: draft.areas,
@@ -89,6 +91,7 @@ export function NewTaskRoute() {
         },
         { areaUsuario, rol },
       )
+      setCreatedTaskId(task.id)
       setIsSaved(true)
       toast({ title: 'Tarea creada', description: 'La tarea ya esta disponible en la vista principal.' })
     } finally {

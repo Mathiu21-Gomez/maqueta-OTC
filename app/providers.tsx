@@ -2,7 +2,6 @@
 
 import type { ReactNode } from 'react'
 
-import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 
 interface ProvidersProps {
@@ -11,9 +10,9 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+    <>
       {children}
       <Toaster />
-    </ThemeProvider>
+    </>
   )
 }

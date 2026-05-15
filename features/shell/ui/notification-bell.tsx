@@ -155,7 +155,7 @@ function NotificationItem({ notification, onMarkRead, onFollowLink }: Notificati
   return (
     <li>
       <Link
-        href="/tareas"
+        href={`/tareas?tarea=${notification.tareaId}`}
         onClick={() => {
           if (isUnread) onMarkRead(notification.id)
           onFollowLink()

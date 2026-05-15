@@ -16,7 +16,7 @@ import {
 import { calcularEstado, diasRestantes, formatearFecha } from '@/features/tasks/domain/task.rules'
 import type { Prioridad, Tarea } from '@/features/tasks/domain/task.types'
 
-export type TaskSortField = 'avanceTotal' | 'estado' | 'fechaFin' | 'nombre' | 'prioridad'
+export type TaskSortField = 'avanceTotal' | 'estado' | 'fechaCreacion' | 'fechaFin' | 'nombre' | 'prioridad'
 export type TaskSortDirection = 'asc' | 'desc'
 
 interface TaskTableProps {
@@ -55,14 +55,14 @@ export function TaskTable({ onOpenTask, onSort, sortDirection, sortField, stats,
         <TableHeader>
           <TableRow>
             <SortableHead active={sortField === 'nombre'} field="nombre" label="Nombre" onSort={onSort} sortDirection={sortDirection} />
-            <TableHead>Areas</TableHead>
+            <TableHead className={PLAIN_HEAD}>Areas</TableHead>
             <SortableHead active={sortField === 'estado'} field="estado" label="Estado" onSort={onSort} sortDirection={sortDirection} />
             <SortableHead active={sortField === 'avanceTotal'} field="avanceTotal" label="Avance" onSort={onSort} sortDirection={sortDirection} />
-            <TableHead>Inicio</TableHead>
+            <TableHead className={PLAIN_HEAD}>Inicio</TableHead>
             <SortableHead active={sortField === 'fechaFin'} field="fechaFin" label="Fin" onSort={onSort} sortDirection={sortDirection} />
-            <TableHead>Tiempo</TableHead>
+            <TableHead className={PLAIN_HEAD}>Tiempo</TableHead>
             <SortableHead active={sortField === 'prioridad'} field="prioridad" label="Prioridad" onSort={onSort} sortDirection={sortDirection} />
-            <TableHead className="w-[168px] text-right">Accion</TableHead>
+            <TableHead className={`${PLAIN_HEAD} w-[168px] text-right`}>Accion</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -108,7 +108,7 @@ export function TaskTable({ onOpenTask, onSort, sortDirection, sortField, stats,
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className={`${getStatusTone(estado)} inline-flex rounded-full border border-current/12 px-2.5 py-1 text-xs`}>{estado}</span>
+                    <span className={getStatusBadge(estado)}>{estado}</span>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
@@ -118,15 +118,15 @@ export function TaskTable({ onOpenTask, onSort, sortDirection, sortField, stats,
                       <span className="otc-data-text text-sm text-muted-foreground">{task.avanceTotal}%</span>
                     </div>
                   </TableCell>
-                  <TableCell className="otc-data-text text-muted-foreground">{formatearFecha(task.fechaInicio)}</TableCell>
-                  <TableCell className="otc-data-text text-muted-foreground">{formatearFecha(task.fechaFin)}</TableCell>
+                  <TableCell className="otc-data-text whitespace-nowrap text-muted-foreground tabular-nums">{formatearFecha(task.fechaInicio)}</TableCell>
+                  <TableCell className="otc-data-text whitespace-nowrap text-muted-foreground tabular-nums">{formatearFecha(task.fechaFin)}</TableCell>
                   <TableCell>
-                    <span className={`${getDaysTone(estado, dias)} otc-data-text`}>
+                    <span className={`${getDaysTone(estado, dias)} otc-data-text whitespace-nowrap`}>
                       {estado === 'Finalizado' ? 'Completada' : dias < 0 ? `${Math.abs(dias)}d atrasado` : `${dias} dias`}
                     </span>
                   </TableCell>
                   <TableCell>
-                    <span className={`${getPriorityTone(task.prioridad)} inline-flex rounded-full border border-current/12 px-2.5 py-1 text-xs`}>{task.prioridad}</span>
+                    <span className={getPriorityBadge(task.prioridad)}>{task.prioridad}</span>
                   </TableCell>
                   <TableCell className="text-right">
                     <Button
@@ -165,6 +165,11 @@ export function TaskTable({ onOpenTask, onSort, sortDirection, sortField, stats,
   )
 }
 
+// Tratamiento tipográfico único para TODOS los encabezados (ordenables y no).
+// Sin esto, los plain quedaban font-normal/muted y los sortable
+// font-semibold/foreground → fila despareja.
+const PLAIN_HEAD = 'font-semibold text-foreground whitespace-nowrap'
+
 interface SortableHeadProps {
   active: boolean
   field: TaskSortField
@@ -175,13 +180,36 @@ interface SortableHeadProps {
 
 function SortableHead({ active, field, label, onSort, sortDirection }: SortableHeadProps) {
   return (
-    <TableHead>
-      <Button type="button" variant="ghost" size="sm" className="-ml-3 h-8 font-semibold text-foreground hover:bg-secondary" onClick={() => onSort(field)}>
+    <TableHead className={PLAIN_HEAD}>
+      <button
+        type="button"
+        onClick={() => onSort(field)}
+        aria-label={`Ordenar por ${label}`}
+        className={`-mx-1 inline-flex items-center gap-1.5 rounded px-1 py-0.5 transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${active ? 'text-primary' : ''}`}
+      >
         {label}
-        <ArrowUpDown className={`transition-transform ${active && sortDirection === 'desc' ? 'rotate-180' : ''}`} aria-hidden="true" />
-      </Button>
+        <ArrowUpDown
+          aria-hidden="true"
+          className={`size-3.5 transition-[transform,opacity] ${active ? 'opacity-100' : 'opacity-40'} ${active && sortDirection === 'desc' ? 'rotate-180' : ''}`}
+        />
+      </button>
     </TableHead>
   )
+}
+
+const BADGE_BASE = 'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium whitespace-nowrap'
+
+function getStatusBadge(estado: string) {
+  if (estado === 'Finalizado') return `${BADGE_BASE} bg-success/12 text-success`
+  if (estado === 'Atrasado') return `${BADGE_BASE} bg-danger/12 text-danger`
+  if (estado === 'En curso') return `${BADGE_BASE} bg-info/12 text-info`
+  return `${BADGE_BASE} bg-warning/14 text-warning`
+}
+
+function getPriorityBadge(prioridad: Prioridad) {
+  if (prioridad === 'Alta') return `${BADGE_BASE} bg-danger/12 text-danger`
+  if (prioridad === 'Media') return `${BADGE_BASE} bg-warning/14 text-warning`
+  return `${BADGE_BASE} bg-success/12 text-success-emphasis`
 }
 
 function getDaysTone(estado: string, dias: number) {
@@ -191,24 +219,11 @@ function getDaysTone(estado: string, dias: number) {
   return 'font-medium text-muted-foreground'
 }
 
-function getPriorityTone(prioridad: Prioridad) {
-  if (prioridad === 'Alta') return 'font-medium text-danger'
-  if (prioridad === 'Media') return 'font-medium text-warning'
-  return 'font-medium text-success-emphasis'
-}
-
-function getStatusTone(estado: string) {
-  if (estado === 'Finalizado') return 'font-medium text-success'
-  if (estado === 'Atrasado') return 'font-medium text-danger'
-  if (estado === 'En curso') return 'font-medium text-info'
-  return 'font-medium text-warning'
-}
-
 function getTaskRowTone(task: Tarea) {
   const estado = calcularEstado(task)
   const dias = diasRestantes(task.fechaFin)
 
-  if (estado === 'Atrasado') return 'border-l-4 border-l-red-500'
-  if (dias > 0 && dias <= 5 && estado !== 'Finalizado') return 'border-l-4 border-l-amber-500'
+  if (estado === 'Atrasado') return 'border-l-4 border-l-danger'
+  if (dias > 0 && dias <= 5 && estado !== 'Finalizado') return 'border-l-4 border-l-warning'
   return ''
 }

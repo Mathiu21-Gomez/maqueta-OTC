@@ -485,7 +485,7 @@ function TaskCard({ task, day }: { task: Tarea; day: Date }) {
   const end = parseDate(task.fechaFin)
   return (
     <Link
-      href="/tareas"
+      href={`/tareas?tarea=${task.id}`}
       className="group block rounded-xl border border-border/70 bg-card/80 p-4 transition-colors hover:border-primary/40 hover:bg-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <div className="mb-2 flex items-start justify-between gap-2">

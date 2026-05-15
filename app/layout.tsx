@@ -34,11 +34,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f7f2ea' },
-    { media: '(prefers-color-scheme: dark)', color: '#12151a' },
-  ],
+  colorScheme: 'light',
+  themeColor: '#f7f2ea',
 }
 
 export default function RootLayout({
@@ -49,7 +46,6 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      suppressHydrationWarning
       className={`${sansFont.variable} ${monoFont.variable}`}
     >
       <body className="font-sans antialiased">

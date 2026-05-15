@@ -24,6 +24,8 @@ import {
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
+import { useRouter } from 'next/navigation'
+
 import { createTask } from '@/features/tasks/application/task.commands'
 import { AREAS, PRIORIDADES } from '@/features/tasks/domain/task.constants'
 import type { Area } from '@/features/tasks/domain/task.types'
@@ -48,6 +50,7 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
   const rol = useSessionStore((state) => state.rol)
   const areaUsuario = useSessionStore((state) => state.areaUsuario)
   const { toast } = useToast()
+  const router = useRouter()
   const reducedMotion = useReducedMotion()
   const [draft, setDraft] = useState(createSheetTaskDraft)
   const [errors, setErrors] = useState<ReturnType<typeof validateTaskDraft>>({})
@@ -124,7 +127,7 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
 
     setIsSubmitting(true)
     try {
-      await createTask(
+      const task = await createTask(
         {
           actividades: sanitizeActivities(draft.actividades),
           areas: draft.area ? [draft.area] : [],
@@ -142,7 +145,10 @@ export function NewTaskSheet({ onOpenChange, open }: NewTaskSheetProps) {
       )
       setIsSaved(true)
       toast({ title: 'Tarea creada', description: 'La tarea fue agregada al sistema.' })
-      window.setTimeout(() => handleOpenChange(false), 1200)
+      window.setTimeout(() => {
+        handleOpenChange(false)
+        router.push(`/tareas?tarea=${task.id}`)
+      }, 1200)
     } finally {
       setIsSubmitting(false)
     }

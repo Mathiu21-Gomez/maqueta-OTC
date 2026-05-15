@@ -121,12 +121,13 @@ function SingleBarChart({
           </Badge>
         </div>
       </div>
-      <div className="flex-1 min-h-[200px]">
+      <div className="flex-1 min-h-[240px]">
         <AnimatePresence mode="wait">
           <ChartContainer config={chartConfig} className="h-full w-full">
             <BarChart
               accessibilityLayer
               data={chartData}
+              barCategoryGap="18%"
               onMouseLeave={() => setActiveIndex(undefined)}
               margin={{
                 left: CHART_MARGIN,
@@ -143,11 +144,11 @@ function SingleBarChart({
                 tick={{ fill: "#6B7280", fontSize: 11 }}
                 height={30}
               />
-              <Bar dataKey={dataKey} fill={color} radius={[4, 4, 0, 0]}>
+              <Bar dataKey={dataKey} fill={color} radius={[4, 4, 0, 0]} maxBarSize={44}>
                 {chartData.map((_, index) => (
                   <Cell
                     className="duration-200"
-                    opacity={index === maxValueIndex.index ? 1 : 0.2}
+                    opacity={index === maxValueIndex.index ? 1 : 0.45}
                     key={index}
                     onMouseEnter={() => setActiveIndex(index)}
                   />
@@ -181,40 +182,35 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
   // Obtener el año actual
   const currentYear = new Date().getFullYear()
 
-  // Transformar datos para los 3 gráficos
-  const chartDataTotal = useMemo(() => {
+  // Un único dataset con eje de meses común: los tres gráficos comparten
+  // las mismas categorías (small multiples), así son comparables y ninguna
+  // serie de un solo dato explota a barra full-width.
+  const chartData = useMemo(() => {
     return data
       .map((item) => {
         const total = item.Planificado + item["En curso"] + item.Finalizado + item.Atrasado
         return {
           mes: MESES[item.mes]?.substring(0, 3) || "",
-          total,
           mesIndex: item.mes,
+          total,
+          enCurso: item["En curso"],
+          planificado: item.Planificado,
         }
       })
       .filter((item) => item.total > 0)
       .sort((a, b) => a.mesIndex - b.mesIndex)
   }, [data])
 
-  const chartDataEnCurso = useMemo(() => {
-    return data
-      .map((item) => ({
-        mes: MESES[item.mes]?.substring(0, 3) || "",
-        enCurso: item["En curso"],
-      }))
-      .filter((item) => item.enCurso > 0)
-  }, [data])
+  const totales = useMemo(
+    () => ({
+      total: chartData.reduce((acc, item) => acc + item.total, 0),
+      enCurso: chartData.reduce((acc, item) => acc + item.enCurso, 0),
+      planificado: chartData.reduce((acc, item) => acc + item.planificado, 0),
+    }),
+    [chartData]
+  )
 
-  const chartDataPlanificado = useMemo(() => {
-    return data
-      .map((item) => ({
-        mes: MESES[item.mes]?.substring(0, 3) || "",
-        planificado: item.Planificado,
-      }))
-      .filter((item) => item.planificado > 0)
-  }, [data])
-
-  const hasData = chartDataTotal.length > 0 || chartDataEnCurso.length > 0 || chartDataPlanificado.length > 0
+  const hasData = chartData.length > 0
 
   if (!hasData) {
     return (
@@ -246,9 +242,9 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
       <div className="px-6 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Gráfico Total */}
-          {chartDataTotal.length > 0 && (
+          {totales.total > 0 && (
             <SingleBarChart
-              chartData={chartDataTotal}
+              chartData={chartData}
               dataKey="total"
               title="Total"
               subtitle="Todas las tareas"
@@ -260,9 +256,9 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
           )}
 
           {/* Gráfico En Curso */}
-          {chartDataEnCurso.length > 0 && (
+          {totales.enCurso > 0 && (
             <SingleBarChart
-              chartData={chartDataEnCurso}
+              chartData={chartData}
               dataKey="enCurso"
               title="En Curso"
               subtitle="Tareas activas"
@@ -274,9 +270,9 @@ export function TareasMensualesBarChart({ data }: TareasMensualesBarChartProps) 
           )}
 
           {/* Gráfico Planificado */}
-          {chartDataPlanificado.length > 0 && (
+          {totales.planificado > 0 && (
             <SingleBarChart
-              chartData={chartDataPlanificado}
+              chartData={chartData}
               dataKey="planificado"
               title="Planificado"
               subtitle="Tareas programadas"

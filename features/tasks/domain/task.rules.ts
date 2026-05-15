@@ -99,6 +99,17 @@ export function generarNotificaciones(tareas: Tarea[]): Notificacion[] {
         leida: false,
       })
     }
+
+    if (estado === 'Finalizado') {
+      notificaciones.push({
+        id: `notif-${tarea.id}-completada`,
+        tipo: 'completada',
+        mensaje: `"${tarea.nombre}" se completo`,
+        tareaId: tarea.id,
+        prioridad: 'baja',
+        leida: false,
+      })
+    }
   })
 
   const prioridadOrden = { alta: 0, media: 1, baja: 2 }

@@ -1,6 +1,7 @@
 'use client'
 
-import { startTransition, useMemo, useState } from 'react'
+import { startTransition, useEffect, useMemo, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { ChevronLeft, ChevronRight, PlusCircle } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -32,8 +33,11 @@ export function TaskListPage() {
   const [areaFilter, setAreaFilter] = useState('todas')
   const [estadoFilter, setEstadoFilter] = useState('todos')
   const [prioridadFilter, setPrioridadFilter] = useState('todas')
-  const [sortField, setSortField] = useState<TaskSortField>('fechaFin')
-  const [sortDirection, setSortDirection] = useState<TaskSortDirection>('asc')
+  // Default: más reciente primero, para que una tarea recién creada quede
+  // arriba de la página 1 (antes se ordenaba por fechaFin asc y la tarea
+  // nueva, con fin futuro, quedaba enterrada en la última página).
+  const [sortField, setSortField] = useState<TaskSortField>('fechaCreacion')
+  const [sortDirection, setSortDirection] = useState<TaskSortDirection>('desc')
   const [currentPage, setCurrentPage] = useState(1)
 
   const filteredTasks = useMemo(() => {
@@ -86,6 +90,21 @@ export function TaskListPage() {
 
   const openTask = (task: Tarea) => startTransition(() => setSelectedTask(task))
   const openNewTask = () => startTransition(() => setNuevaTareaSheetOpen(true))
+
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const tareaParam = searchParams.get('tarea')
+
+  // Deep-link desde una notificación: abre el detalle de esa tarea y limpia
+  // el query param para que cerrar el sheet no lo reabra. Depende de `tasks`
+  // porque se hidratan async tras el primer render.
+  useEffect(() => {
+    if (!tareaParam) return
+    const target = tasks.find((task) => task.id === tareaParam)
+    if (!target) return
+    startTransition(() => setSelectedTask(target))
+    router.replace('/tareas', { scroll: false })
+  }, [tareaParam, tasks, router])
 
   return (
     <div className="otc-grid-shell flex flex-col gap-6 rounded-[calc(var(--radius)+0.5rem)] p-1">
@@ -207,6 +226,10 @@ function compareTasks(left: Tarea, right: Tarea, field: TaskSortField, direction
       break
     case 'fechaFin':
       result = new Date(left.fechaFin).getTime() - new Date(right.fechaFin).getTime()
+      break
+    case 'fechaCreacion':
+      // fechaCreacion es YYYY-MM-DD: localeCompare ordena cronológicamente.
+      result = left.fechaCreacion.localeCompare(right.fechaCreacion)
       break
     case 'prioridad': {
       const order: Record<Prioridad, number> = { Alta: 0, Media: 1, Baja: 2 }

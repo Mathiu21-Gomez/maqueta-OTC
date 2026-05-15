@@ -3,12 +3,15 @@
 @import '../shared/styles/tokens.css';
 @import '../shared/styles/charts.css';
 
+/* App light-only: sin next-themes nada agrega `.dark`, así toda utilidad
+   `dark:` queda inerte. NO quitar — sin esto Tailwind v4 cae al default
+   `@media (prefers-color-scheme: dark)` y reactivaría dark en SO oscuro. */
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
   html {
     background: var(--background);
-    color-scheme: light dark;
+    color-scheme: light;
   }
 
   * {
@@ -116,7 +119,11 @@
 
   .otc-shell-frame {
     background: var(--shell-frame-bg);
-    backdrop-filter: blur(20px);
+    /* blur(20px) re-rasterizaba el frame entero en cada frame de los 200ms
+       de colapso (el ancho sigue al espaciador flex del sidebar). Radio más
+       chico + contain acotan el repaint sin perder el efecto glass. */
+    backdrop-filter: blur(12px);
+    contain: layout paint;
   }
 
   .otc-skip-link {

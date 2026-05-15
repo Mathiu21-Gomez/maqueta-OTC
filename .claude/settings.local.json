@@ -18,7 +18,11 @@
       "Bash(node -e \"const r=require\\('./.claude/e2e-report.json'\\);for\\(const [route,vps] of Object.entries\\(r.routes\\)\\){for\\(const [v,d] of Object.entries\\(vps\\)\\){if\\(d.console_errors.length\\){console.log\\('---',route,v\\);d.console_errors.forEach\\(e=>console.log\\(e.text.slice\\(0,300\\)\\)\\)}}}\")",
       "Bash(node -e \"const r=require\\('./.claude/e2e-report.json'\\);const d=r.routes['/mis-tareas'].desktop.console_errors[0];console.log\\(d.text\\)\")",
       "Bash(node *)",
-      "Bash(kill %1)"
+      "Bash(kill %1)",
+      "Bash(pnpm *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
     ]
   }
 }

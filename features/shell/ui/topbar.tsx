@@ -17,7 +17,6 @@ import { useSessionStore } from '@/features/session/application/session.store'
 import { CommandPaletteTrigger } from '@/features/shell/ui/command-palette'
 import { NotificationBell } from '@/features/shell/ui/notification-bell'
 import { getShellRouteMeta } from '@/features/shell/ui/shell-navigation'
-import { ThemeToggle } from '@/features/shell/ui/theme-toggle'
 
 export function Topbar() {
   const pathname = usePathname()
@@ -53,7 +52,6 @@ export function Topbar() {
             {rol === 'Administrador' ? <Shield className="size-3.5" aria-hidden="true" /> : <User className="size-3.5" aria-hidden="true" />}
             {rol === 'Administrador' ? 'Administrador' : areaUsuario}
           </span>
-          <ThemeToggle />
           <NotificationBell />
         </div>
       </div>

@@ -59,7 +59,7 @@ export function DayTasksPopover({ open, onOpenChange, anchor, dayLabel, tasks, a
             return (
               <li key={task.id}>
                 <Link
-                  href="/tareas"
+                  href={`/tareas?tarea=${task.id}`}
                   onClick={() => onOpenChange(false)}
                   className="group flex flex-col gap-1.5 px-4 py-3 transition-colors hover:bg-accent/60 focus-visible:bg-accent/60 focus-visible:outline-none"
                 >
