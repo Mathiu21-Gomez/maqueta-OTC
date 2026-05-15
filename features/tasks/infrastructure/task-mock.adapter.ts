@@ -4,23 +4,75 @@ import { createTaskDtoFromInput, taskFromDto, taskToDto, type TaskDto } from '@/
 import type { TaskRepository } from '@/features/tasks/infrastructure/task.repository'
 import { tareasIniciales as seedTasks } from '@/features/tasks/infrastructure/task.seed'
 
+const STORAGE_KEY = 'otc-tasks'
+// Subir si cambia la forma del DTO o la semilla, para invalidar datos viejos
+// y evitar que un localStorage corrupto rompa la demo.
+const STORAGE_VERSION = 1
+
 function buildInitialDtos(): TaskDto[] {
   return seedTasks.map(taskToDto)
 }
 
+function canUseStorage(): boolean {
+  return typeof window !== 'undefined' && !!window.localStorage
+}
+
+function readStored(): TaskDto[] | null {
+  if (!canUseStorage()) return null
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as { v?: number; dtos?: TaskDto[] }
+    if (parsed?.v !== STORAGE_VERSION || !Array.isArray(parsed.dtos)) return null
+    return parsed.dtos
+  } catch {
+    return null
+  }
+}
+
+function writeStored(dtos: TaskDto[]): void {
+  if (!canUseStorage()) return
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ v: STORAGE_VERSION, dtos }))
+  } catch {
+    // Almacenamiento lleno o no disponible: degradamos a solo-memoria.
+  }
+}
+
 export function createMockTaskRepository(): TaskRepository {
-  let taskDtos = buildInitialDtos()
+  // Se resuelve en el primer acceso (cliente). En SSR no hay localStorage:
+  // queda la semilla en memoria, sin persistir.
+  let taskDtos: TaskDto[] | null = null
+
+  function load(): TaskDto[] {
+    if (taskDtos) return taskDtos
+
+    const stored = readStored()
+    if (stored) {
+      taskDtos = stored
+    } else {
+      taskDtos = buildInitialDtos()
+      writeStored(taskDtos)
+    }
+
+    return taskDtos
+  }
+
+  function commit(next: TaskDto[]): void {
+    taskDtos = next
+    writeStored(next)
+  }
 
   return {
     async list() {
-      return taskDtos.map((dto) => normalizarTarea(taskFromDto(dto)))
+      return load().map((dto) => normalizarTarea(taskFromDto(dto)))
     },
 
     async create(input) {
       const dto = createTaskDtoFromInput(input, `tarea-${Date.now()}`)
       const normalized = normalizarTarea(taskFromDto(dto))
 
-      taskDtos = [...taskDtos, taskToDto(normalized)]
+      commit([...load(), taskToDto(normalized)])
 
       return normalized
     },
@@ -28,7 +80,7 @@ export function createMockTaskRepository(): TaskRepository {
     async update(id, input) {
       let updatedTask: Tarea | null = null
 
-      taskDtos = taskDtos.map((dto) => {
+      const next = load().map((dto) => {
         if (dto.id !== id) {
           return dto
         }
@@ -49,11 +101,13 @@ export function createMockTaskRepository(): TaskRepository {
         throw new Error(`Task ${id} not found in mock repository`)
       }
 
+      commit(next)
+
       return updatedTask
     },
 
     async finalize(id) {
-      const currentTask = taskDtos.find((dto) => dto.id === id)
+      const currentTask = load().find((dto) => dto.id === id)
 
       if (!currentTask) {
         throw new Error(`Task ${id} not found in mock repository`)
